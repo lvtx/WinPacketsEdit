@@ -55,11 +55,12 @@
             this.lvProcessList.UseCompatibleStateImageBehavior = false;
             this.lvProcessList.View = System.Windows.Forms.View.Details;
             this.lvProcessList.DoubleClick += new System.EventHandler(this.lvProcessList_DoubleClick);
+            this.lvProcessList.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lvProcessList_KeyUp);
             // 
             // chPName
             // 
             this.chPName.Text = "进程名称";
-            this.chPName.Width = 230;
+            this.chPName.Width = 210;
             // 
             // chPID
             // 

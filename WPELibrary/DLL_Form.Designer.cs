@@ -168,7 +168,7 @@
             this.txtFilter_Packet.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtFilter_Packet.Location = new System.Drawing.Point(116, 79);
             this.txtFilter_Packet.Name = "txtFilter_Packet";
-            this.txtFilter_Packet.Size = new System.Drawing.Size(420, 22);
+            this.txtFilter_Packet.Size = new System.Drawing.Size(400, 22);
             this.txtFilter_Packet.TabIndex = 5;
             this.txtFilter_Packet.WordWrap = false;
             // 
@@ -178,7 +178,7 @@
             this.gbFilter_Size.Controls.Add(this.txtFilter_Size_From);
             this.gbFilter_Size.Controls.Add(this.txtFilter_Size_To);
             this.gbFilter_Size.Controls.Add(this.lSplit);
-            this.gbFilter_Size.Location = new System.Drawing.Point(542, 9);
+            this.gbFilter_Size.Location = new System.Drawing.Point(528, 9);
             this.gbFilter_Size.Name = "gbFilter_Size";
             this.gbFilter_Size.Size = new System.Drawing.Size(89, 101);
             this.gbFilter_Size.TabIndex = 6;
@@ -242,7 +242,7 @@
             this.bStopHook.Name = "bStopHook";
             this.bStopHook.Size = new System.Drawing.Size(79, 33);
             this.bStopHook.TabIndex = 9;
-            this.bStopHook.Text = "结 束";
+            this.bStopHook.Text = "结 束 (&J)";
             this.bStopHook.UseVisualStyleBackColor = true;
             this.bStopHook.Click += new System.EventHandler(this.bStopHook_Click);
             // 
@@ -251,7 +251,7 @@
             this.txtFilter_IP.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtFilter_IP.Location = new System.Drawing.Point(116, 51);
             this.txtFilter_IP.Name = "txtFilter_IP";
-            this.txtFilter_IP.Size = new System.Drawing.Size(420, 22);
+            this.txtFilter_IP.Size = new System.Drawing.Size(400, 22);
             this.txtFilter_IP.TabIndex = 4;
             this.txtFilter_IP.WordWrap = false;
             // 
@@ -265,17 +265,17 @@
             this.gbFilter_Type.Controls.Add(this.cbType_Recv);
             this.gbFilter_Type.Controls.Add(this.cbType_SendTo);
             this.gbFilter_Type.Controls.Add(this.cbType_Send);
-            this.gbFilter_Type.Location = new System.Drawing.Point(637, 9);
+            this.gbFilter_Type.Location = new System.Drawing.Point(623, 9);
             this.gbFilter_Type.Name = "gbFilter_Type";
             this.gbFilter_Type.Padding = new System.Windows.Forms.Padding(1);
-            this.gbFilter_Type.Size = new System.Drawing.Size(130, 101);
+            this.gbFilter_Type.Size = new System.Drawing.Size(144, 101);
             this.gbFilter_Type.TabIndex = 7;
             this.gbFilter_Type.TabStop = false;
             // 
             // cbInterecept_RecvFrom
             // 
             this.cbInterecept_RecvFrom.AutoSize = true;
-            this.cbInterecept_RecvFrom.Location = new System.Drawing.Point(5, 78);
+            this.cbInterecept_RecvFrom.Location = new System.Drawing.Point(9, 78);
             this.cbInterecept_RecvFrom.Name = "cbInterecept_RecvFrom";
             this.cbInterecept_RecvFrom.Size = new System.Drawing.Size(60, 21);
             this.cbInterecept_RecvFrom.TabIndex = 3;
@@ -285,7 +285,7 @@
             // cbInterecept_Recv
             // 
             this.cbInterecept_Recv.AutoSize = true;
-            this.cbInterecept_Recv.Location = new System.Drawing.Point(5, 57);
+            this.cbInterecept_Recv.Location = new System.Drawing.Point(9, 57);
             this.cbInterecept_Recv.Name = "cbInterecept_Recv";
             this.cbInterecept_Recv.Size = new System.Drawing.Size(60, 21);
             this.cbInterecept_Recv.TabIndex = 2;
@@ -295,7 +295,7 @@
             // cbInterecept_SendTo
             // 
             this.cbInterecept_SendTo.AutoSize = true;
-            this.cbInterecept_SendTo.Location = new System.Drawing.Point(5, 34);
+            this.cbInterecept_SendTo.Location = new System.Drawing.Point(9, 34);
             this.cbInterecept_SendTo.Name = "cbInterecept_SendTo";
             this.cbInterecept_SendTo.Size = new System.Drawing.Size(60, 21);
             this.cbInterecept_SendTo.TabIndex = 1;
@@ -305,7 +305,7 @@
             // cbInterecept_Send
             // 
             this.cbInterecept_Send.AutoSize = true;
-            this.cbInterecept_Send.Location = new System.Drawing.Point(5, 11);
+            this.cbInterecept_Send.Location = new System.Drawing.Point(9, 11);
             this.cbInterecept_Send.Name = "cbInterecept_Send";
             this.cbInterecept_Send.Size = new System.Drawing.Size(60, 21);
             this.cbInterecept_Send.TabIndex = 0;
@@ -317,7 +317,7 @@
             this.cbType_RecvFrom.AutoSize = true;
             this.cbType_RecvFrom.Checked = true;
             this.cbType_RecvFrom.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbType_RecvFrom.Location = new System.Drawing.Point(65, 78);
+            this.cbType_RecvFrom.Location = new System.Drawing.Point(75, 78);
             this.cbType_RecvFrom.Name = "cbType_RecvFrom";
             this.cbType_RecvFrom.Size = new System.Drawing.Size(63, 21);
             this.cbType_RecvFrom.TabIndex = 7;
@@ -329,7 +329,7 @@
             this.cbType_Recv.AutoSize = true;
             this.cbType_Recv.Checked = true;
             this.cbType_Recv.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbType_Recv.Location = new System.Drawing.Point(65, 57);
+            this.cbType_Recv.Location = new System.Drawing.Point(75, 57);
             this.cbType_Recv.Name = "cbType_Recv";
             this.cbType_Recv.Size = new System.Drawing.Size(51, 21);
             this.cbType_Recv.TabIndex = 6;
@@ -341,7 +341,7 @@
             this.cbType_SendTo.AutoSize = true;
             this.cbType_SendTo.Checked = true;
             this.cbType_SendTo.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbType_SendTo.Location = new System.Drawing.Point(65, 34);
+            this.cbType_SendTo.Location = new System.Drawing.Point(75, 34);
             this.cbType_SendTo.Name = "cbType_SendTo";
             this.cbType_SendTo.Size = new System.Drawing.Size(63, 21);
             this.cbType_SendTo.TabIndex = 5;
@@ -353,7 +353,7 @@
             this.cbType_Send.AutoSize = true;
             this.cbType_Send.Checked = true;
             this.cbType_Send.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbType_Send.Location = new System.Drawing.Point(65, 11);
+            this.cbType_Send.Location = new System.Drawing.Point(75, 11);
             this.cbType_Send.Name = "cbType_Send";
             this.cbType_Send.Size = new System.Drawing.Size(51, 21);
             this.cbType_Send.TabIndex = 4;
@@ -378,7 +378,7 @@
             this.bStartHook.Name = "bStartHook";
             this.bStartHook.Size = new System.Drawing.Size(79, 33);
             this.bStartHook.TabIndex = 8;
-            this.bStartHook.Text = "开 始";
+            this.bStartHook.Text = "开 始 (&K)";
             this.bStartHook.UseVisualStyleBackColor = true;
             this.bStartHook.Click += new System.EventHandler(this.bStartHook_Click);
             // 
@@ -387,7 +387,7 @@
             this.txtFilter_Socket.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtFilter_Socket.Location = new System.Drawing.Point(116, 24);
             this.txtFilter_Socket.Name = "txtFilter_Socket";
-            this.txtFilter_Socket.Size = new System.Drawing.Size(420, 22);
+            this.txtFilter_Socket.Size = new System.Drawing.Size(400, 22);
             this.txtFilter_Socket.TabIndex = 3;
             this.txtFilter_Socket.WordWrap = false;
             // 
@@ -817,27 +817,27 @@
             // 
             // bSendStop
             // 
-            this.bSendStop.Location = new System.Drawing.Point(816, 19);
+            this.bSendStop.Location = new System.Drawing.Point(794, 19);
             this.bSendStop.Name = "bSendStop";
-            this.bSendStop.Size = new System.Drawing.Size(46, 30);
+            this.bSendStop.Size = new System.Drawing.Size(63, 30);
             this.bSendStop.TabIndex = 11;
-            this.bSendStop.Text = "停止";
+            this.bSendStop.Text = "停止 (&T)";
             this.bSendStop.UseVisualStyleBackColor = true;
             this.bSendStop.Click += new System.EventHandler(this.bSendStop_Click);
             // 
             // bSend
             // 
-            this.bSend.Location = new System.Drawing.Point(764, 19);
+            this.bSend.Location = new System.Drawing.Point(719, 19);
             this.bSend.Name = "bSend";
-            this.bSend.Size = new System.Drawing.Size(46, 30);
+            this.bSend.Size = new System.Drawing.Size(63, 30);
             this.bSend.TabIndex = 10;
-            this.bSend.Text = "发送";
+            this.bSend.Text = "发送 (&F)";
             this.bSend.UseVisualStyleBackColor = true;
             this.bSend.Click += new System.EventHandler(this.bSend_Click);
             // 
             // txtSend_Int
             // 
-            this.txtSend_Int.Location = new System.Drawing.Point(702, 23);
+            this.txtSend_Int.Location = new System.Drawing.Point(653, 23);
             this.txtSend_Int.Name = "txtSend_Int";
             this.txtSend_Int.Size = new System.Drawing.Size(50, 23);
             this.txtSend_Int.TabIndex = 9;
@@ -847,15 +847,15 @@
             // lSend_Int
             // 
             this.lSend_Int.AutoSize = true;
-            this.lSend_Int.Location = new System.Drawing.Point(591, 26);
+            this.lSend_Int.Location = new System.Drawing.Point(566, 26);
             this.lSend_Int.Name = "lSend_Int";
-            this.lSend_Int.Size = new System.Drawing.Size(107, 17);
+            this.lSend_Int.Size = new System.Drawing.Size(83, 17);
             this.lSend_Int.TabIndex = 8;
-            this.lSend_Int.Text = "发送间隔（毫秒）:";
+            this.lSend_Int.Text = "间隔（毫秒）:";
             // 
             // txtSend_CNT
             // 
-            this.txtSend_CNT.Location = new System.Drawing.Point(535, 23);
+            this.txtSend_CNT.Location = new System.Drawing.Point(512, 23);
             this.txtSend_CNT.Name = "txtSend_CNT";
             this.txtSend_CNT.Size = new System.Drawing.Size(50, 23);
             this.txtSend_CNT.TabIndex = 7;
@@ -867,9 +867,9 @@
             this.lSend_CNT.AutoSize = true;
             this.lSend_CNT.Location = new System.Drawing.Point(471, 26);
             this.lSend_CNT.Name = "lSend_CNT";
-            this.lSend_CNT.Size = new System.Drawing.Size(68, 17);
+            this.lSend_CNT.Size = new System.Drawing.Size(44, 17);
             this.lSend_CNT.TabIndex = 6;
-            this.lSend_CNT.Text = "发送次数：";
+            this.lSend_CNT.Text = "次数：";
             // 
             // txtSend_Len
             // 
