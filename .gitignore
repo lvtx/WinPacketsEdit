@@ -1,0 +1,9 @@
+﻿################################################################################
+# 此 .gitignore 文件已由 Microsoft(R) Visual Studio 自动创建。
+################################################################################
+
+/.vs/WinPacketsEdit/v14
+/Build
+/packages/EasyHook.2.7.7097
+/ProcessInjector/obj
+/WPELibrary/obj

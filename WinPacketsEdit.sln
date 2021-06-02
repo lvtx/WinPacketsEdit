@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessInjector", "ProcessInjector\ProcessInjector.csproj", "{C2A6A6AD-C8DB-4209-88E4-256FC823C05C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{351B0F87-2972-4681-A7B7-38742F2F9710} = {351B0F87-2972-4681-A7B7-38742F2F9710}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPELibrary", "WPELibrary\WPELibrary.csproj", "{351B0F87-2972-4681-A7B7-38742F2F9710}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6B499F22-A635-4385-9F73-08801292F3C5}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C2A6A6AD-C8DB-4209-88E4-256FC823C05C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2A6A6AD-C8DB-4209-88E4-256FC823C05C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2A6A6AD-C8DB-4209-88E4-256FC823C05C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2A6A6AD-C8DB-4209-88E4-256FC823C05C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{351B0F87-2972-4681-A7B7-38742F2F9710}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{351B0F87-2972-4681-A7B7-38742F2F9710}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{351B0F87-2972-4681-A7B7-38742F2F9710}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{351B0F87-2972-4681-A7B7-38742F2F9710}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
