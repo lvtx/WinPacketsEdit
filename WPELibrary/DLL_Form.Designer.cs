@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DLL_Form));
             this.tSocketInfo = new System.Windows.Forms.Timer(this.components);
             this.gbRight = new System.Windows.Forms.GroupBox();
+            this.cbCleanSocket = new System.Windows.Forms.CheckBox();
             this.txtFilter_Packet = new System.Windows.Forms.TextBox();
             this.gbFilter_Size = new System.Windows.Forms.GroupBox();
             this.cbFilter_Size = new System.Windows.Forms.CheckBox();
@@ -91,27 +92,12 @@
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tlInterecept = new System.Windows.Forms.ToolStripStatusLabel();
             this.tlInterecept_CNT = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel6 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tlSendPacket = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tlSendPacket_CNT = new System.Windows.Forms.ToolStripStatusLabel();
-            this.bgwSendPacket = new System.ComponentModel.BackgroundWorker();
+            this.cmsSocketInfo = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiSend = new System.Windows.Forms.ToolStripMenuItem();
             this.gbSearch_Bottom = new System.Windows.Forms.GroupBox();
             this.bSearch = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.lSearch = new System.Windows.Forms.Label();
-            this.gbSend_Bottom = new System.Windows.Forms.GroupBox();
-            this.bSendStop = new System.Windows.Forms.Button();
-            this.bSend = new System.Windows.Forms.Button();
-            this.txtSend_Int = new System.Windows.Forms.TextBox();
-            this.lSend_Int = new System.Windows.Forms.Label();
-            this.txtSend_CNT = new System.Windows.Forms.TextBox();
-            this.lSend_CNT = new System.Windows.Forms.Label();
-            this.txtSend_Len = new System.Windows.Forms.TextBox();
-            this.lSend_Len = new System.Windows.Forms.Label();
-            this.txtSend_IP = new System.Windows.Forms.TextBox();
-            this.txtSend_Socket = new System.Windows.Forms.TextBox();
-            this.lSend_IP = new System.Windows.Forms.Label();
-            this.lSend_Socket = new System.Windows.Forms.Label();
             this.lvSocketInfo = new System.Windows.Forms.ListView();
             this.chNum = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -133,8 +119,8 @@
             this.tpGB2312.SuspendLayout();
             this.tpDebug.SuspendLayout();
             this.ssStatusInfo_Top.SuspendLayout();
+            this.cmsSocketInfo.SuspendLayout();
             this.gbSearch_Bottom.SuspendLayout();
-            this.gbSend_Bottom.SuspendLayout();
             this.SuspendLayout();
             // 
             // tSocketInfo
@@ -144,6 +130,7 @@
             // 
             // gbRight
             // 
+            this.gbRight.Controls.Add(this.cbCleanSocket);
             this.gbRight.Controls.Add(this.txtFilter_Packet);
             this.gbRight.Controls.Add(this.gbFilter_Size);
             this.gbRight.Controls.Add(this.cbFilter_Packet);
@@ -158,10 +145,23 @@
             this.gbRight.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.gbRight.Location = new System.Drawing.Point(0, 0);
             this.gbRight.Name = "gbRight";
-            this.gbRight.Size = new System.Drawing.Size(869, 116);
+            this.gbRight.Size = new System.Drawing.Size(883, 116);
             this.gbRight.TabIndex = 0;
             this.gbRight.TabStop = false;
             this.gbRight.Text = "[ 过滤条件 ] - 支持多个内容使用 ; 分隔符";
+            // 
+            // cbCleanSocket
+            // 
+            this.cbCleanSocket.CheckAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.cbCleanSocket.Checked = true;
+            this.cbCleanSocket.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbCleanSocket.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.cbCleanSocket.Location = new System.Drawing.Point(762, 20);
+            this.cbCleanSocket.Name = "cbCleanSocket";
+            this.cbCleanSocket.Size = new System.Drawing.Size(22, 86);
+            this.cbCleanSocket.TabIndex = 8;
+            this.cbCleanSocket.Text = "清除数据";
+            this.cbCleanSocket.UseVisualStyleBackColor = true;
             // 
             // txtFilter_Packet
             // 
@@ -178,7 +178,7 @@
             this.gbFilter_Size.Controls.Add(this.txtFilter_Size_From);
             this.gbFilter_Size.Controls.Add(this.txtFilter_Size_To);
             this.gbFilter_Size.Controls.Add(this.lSplit);
-            this.gbFilter_Size.Location = new System.Drawing.Point(528, 9);
+            this.gbFilter_Size.Location = new System.Drawing.Point(520, 9);
             this.gbFilter_Size.Name = "gbFilter_Size";
             this.gbFilter_Size.Size = new System.Drawing.Size(89, 101);
             this.gbFilter_Size.TabIndex = 6;
@@ -237,11 +237,11 @@
             // bStopHook
             // 
             this.bStopHook.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.bStopHook.Location = new System.Drawing.Point(778, 71);
+            this.bStopHook.Location = new System.Drawing.Point(797, 69);
             this.bStopHook.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.bStopHook.Name = "bStopHook";
-            this.bStopHook.Size = new System.Drawing.Size(79, 33);
-            this.bStopHook.TabIndex = 9;
+            this.bStopHook.Size = new System.Drawing.Size(75, 33);
+            this.bStopHook.TabIndex = 10;
             this.bStopHook.Text = "结 束 (&J)";
             this.bStopHook.UseVisualStyleBackColor = true;
             this.bStopHook.Click += new System.EventHandler(this.bStopHook_Click);
@@ -265,7 +265,7 @@
             this.gbFilter_Type.Controls.Add(this.cbType_Recv);
             this.gbFilter_Type.Controls.Add(this.cbType_SendTo);
             this.gbFilter_Type.Controls.Add(this.cbType_Send);
-            this.gbFilter_Type.Location = new System.Drawing.Point(623, 9);
+            this.gbFilter_Type.Location = new System.Drawing.Point(614, 9);
             this.gbFilter_Type.Name = "gbFilter_Type";
             this.gbFilter_Type.Padding = new System.Windows.Forms.Padding(1);
             this.gbFilter_Type.Size = new System.Drawing.Size(144, 101);
@@ -373,11 +373,11 @@
             // bStartHook
             // 
             this.bStartHook.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.bStartHook.Location = new System.Drawing.Point(778, 20);
+            this.bStartHook.Location = new System.Drawing.Point(797, 20);
             this.bStartHook.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.bStartHook.Name = "bStartHook";
-            this.bStartHook.Size = new System.Drawing.Size(79, 33);
-            this.bStartHook.TabIndex = 8;
+            this.bStartHook.Size = new System.Drawing.Size(75, 33);
+            this.bStartHook.TabIndex = 9;
             this.bStartHook.Text = "开 始 (&K)";
             this.bStartHook.UseVisualStyleBackColor = true;
             this.bStartHook.Click += new System.EventHandler(this.bStartHook_Click);
@@ -410,11 +410,11 @@
             this.gbBottom.Controls.Add(this.tcPacketInfo);
             this.gbBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.gbBottom.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.gbBottom.Location = new System.Drawing.Point(0, 505);
+            this.gbBottom.Location = new System.Drawing.Point(0, 471);
             this.gbBottom.Margin = new System.Windows.Forms.Padding(0);
             this.gbBottom.Name = "gbBottom";
             this.gbBottom.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gbBottom.Size = new System.Drawing.Size(869, 165);
+            this.gbBottom.Size = new System.Drawing.Size(883, 165);
             this.gbBottom.TabIndex = 5;
             this.gbBottom.TabStop = false;
             this.gbBottom.Text = "[ 数据显示方式 ]";
@@ -432,7 +432,7 @@
             this.tcPacketInfo.Location = new System.Drawing.Point(3, 20);
             this.tcPacketInfo.Name = "tcPacketInfo";
             this.tcPacketInfo.SelectedIndex = 0;
-            this.tcPacketInfo.Size = new System.Drawing.Size(863, 141);
+            this.tcPacketInfo.Size = new System.Drawing.Size(877, 141);
             this.tcPacketInfo.TabIndex = 10;
             // 
             // tpHEX
@@ -440,7 +440,7 @@
             this.tpHEX.Controls.Add(this.rtbHEX);
             this.tpHEX.Location = new System.Drawing.Point(4, 26);
             this.tpHEX.Name = "tpHEX";
-            this.tpHEX.Size = new System.Drawing.Size(855, 111);
+            this.tpHEX.Size = new System.Drawing.Size(869, 111);
             this.tpHEX.TabIndex = 0;
             this.tpHEX.Text = "十六进制";
             this.tpHEX.UseVisualStyleBackColor = true;
@@ -451,7 +451,7 @@
             this.rtbHEX.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbHEX.Location = new System.Drawing.Point(0, 0);
             this.rtbHEX.Name = "rtbHEX";
-            this.rtbHEX.Size = new System.Drawing.Size(855, 111);
+            this.rtbHEX.Size = new System.Drawing.Size(869, 111);
             this.rtbHEX.TabIndex = 0;
             this.rtbHEX.Text = "";
             // 
@@ -460,7 +460,7 @@
             this.tpDEC.Controls.Add(this.rtbDEC);
             this.tpDEC.Location = new System.Drawing.Point(4, 26);
             this.tpDEC.Name = "tpDEC";
-            this.tpDEC.Size = new System.Drawing.Size(855, 111);
+            this.tpDEC.Size = new System.Drawing.Size(869, 111);
             this.tpDEC.TabIndex = 1;
             this.tpDEC.Text = "十进制";
             this.tpDEC.UseVisualStyleBackColor = true;
@@ -470,7 +470,7 @@
             this.rtbDEC.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbDEC.Location = new System.Drawing.Point(0, 0);
             this.rtbDEC.Name = "rtbDEC";
-            this.rtbDEC.Size = new System.Drawing.Size(855, 111);
+            this.rtbDEC.Size = new System.Drawing.Size(869, 111);
             this.rtbDEC.TabIndex = 0;
             this.rtbDEC.Text = "";
             // 
@@ -479,7 +479,7 @@
             this.tpBIN.Controls.Add(this.rtbBIN);
             this.tpBIN.Location = new System.Drawing.Point(4, 26);
             this.tpBIN.Name = "tpBIN";
-            this.tpBIN.Size = new System.Drawing.Size(855, 111);
+            this.tpBIN.Size = new System.Drawing.Size(869, 111);
             this.tpBIN.TabIndex = 2;
             this.tpBIN.Text = "二进制";
             this.tpBIN.UseVisualStyleBackColor = true;
@@ -489,7 +489,7 @@
             this.rtbBIN.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbBIN.Location = new System.Drawing.Point(0, 0);
             this.rtbBIN.Name = "rtbBIN";
-            this.rtbBIN.Size = new System.Drawing.Size(855, 111);
+            this.rtbBIN.Size = new System.Drawing.Size(869, 111);
             this.rtbBIN.TabIndex = 0;
             this.rtbBIN.Text = "";
             // 
@@ -498,7 +498,7 @@
             this.tpUNICODE.Controls.Add(this.rtbUNICODE);
             this.tpUNICODE.Location = new System.Drawing.Point(4, 26);
             this.tpUNICODE.Name = "tpUNICODE";
-            this.tpUNICODE.Size = new System.Drawing.Size(855, 111);
+            this.tpUNICODE.Size = new System.Drawing.Size(869, 111);
             this.tpUNICODE.TabIndex = 3;
             this.tpUNICODE.Text = "Unicode";
             this.tpUNICODE.UseVisualStyleBackColor = true;
@@ -508,7 +508,7 @@
             this.rtbUNICODE.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbUNICODE.Location = new System.Drawing.Point(0, 0);
             this.rtbUNICODE.Name = "rtbUNICODE";
-            this.rtbUNICODE.Size = new System.Drawing.Size(855, 111);
+            this.rtbUNICODE.Size = new System.Drawing.Size(869, 111);
             this.rtbUNICODE.TabIndex = 0;
             this.rtbUNICODE.Text = "";
             // 
@@ -517,7 +517,7 @@
             this.tpUTF8.Controls.Add(this.rtbUTF8);
             this.tpUTF8.Location = new System.Drawing.Point(4, 26);
             this.tpUTF8.Name = "tpUTF8";
-            this.tpUTF8.Size = new System.Drawing.Size(855, 111);
+            this.tpUTF8.Size = new System.Drawing.Size(869, 111);
             this.tpUTF8.TabIndex = 4;
             this.tpUTF8.Text = "UTF-8";
             this.tpUTF8.UseVisualStyleBackColor = true;
@@ -527,7 +527,7 @@
             this.rtbUTF8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbUTF8.Location = new System.Drawing.Point(0, 0);
             this.rtbUTF8.Name = "rtbUTF8";
-            this.rtbUTF8.Size = new System.Drawing.Size(855, 111);
+            this.rtbUTF8.Size = new System.Drawing.Size(869, 111);
             this.rtbUTF8.TabIndex = 0;
             this.rtbUTF8.Text = "";
             // 
@@ -536,7 +536,7 @@
             this.tpGB2312.Controls.Add(this.rtbGB2312);
             this.tpGB2312.Location = new System.Drawing.Point(4, 26);
             this.tpGB2312.Name = "tpGB2312";
-            this.tpGB2312.Size = new System.Drawing.Size(855, 111);
+            this.tpGB2312.Size = new System.Drawing.Size(869, 111);
             this.tpGB2312.TabIndex = 5;
             this.tpGB2312.Text = "GB2312";
             this.tpGB2312.UseVisualStyleBackColor = true;
@@ -546,7 +546,7 @@
             this.rtbGB2312.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbGB2312.Location = new System.Drawing.Point(0, 0);
             this.rtbGB2312.Name = "rtbGB2312";
-            this.rtbGB2312.Size = new System.Drawing.Size(855, 111);
+            this.rtbGB2312.Size = new System.Drawing.Size(869, 111);
             this.rtbGB2312.TabIndex = 0;
             this.rtbGB2312.Text = "";
             // 
@@ -555,7 +555,7 @@
             this.tpDebug.Controls.Add(this.rtbDEBUG);
             this.tpDebug.Location = new System.Drawing.Point(4, 26);
             this.tpDebug.Name = "tpDebug";
-            this.tpDebug.Size = new System.Drawing.Size(855, 111);
+            this.tpDebug.Size = new System.Drawing.Size(869, 111);
             this.tpDebug.TabIndex = 7;
             this.tpDebug.Text = "调试信息";
             this.tpDebug.UseVisualStyleBackColor = true;
@@ -565,7 +565,7 @@
             this.rtbDEBUG.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbDEBUG.Location = new System.Drawing.Point(0, 0);
             this.rtbDEBUG.Name = "rtbDEBUG";
-            this.rtbDEBUG.Size = new System.Drawing.Size(855, 111);
+            this.rtbDEBUG.Size = new System.Drawing.Size(869, 111);
             this.rtbDEBUG.TabIndex = 0;
             this.rtbDEBUG.Text = "";
             // 
@@ -591,14 +591,11 @@
             this.tlFilter_CNT,
             this.toolStripStatusLabel4,
             this.tlInterecept,
-            this.tlInterecept_CNT,
-            this.toolStripStatusLabel6,
-            this.tlSendPacket,
-            this.tlSendPacket_CNT});
+            this.tlInterecept_CNT});
             this.ssStatusInfo_Top.Location = new System.Drawing.Point(0, 116);
             this.ssStatusInfo_Top.Name = "ssStatusInfo_Top";
             this.ssStatusInfo_Top.Padding = new System.Windows.Forms.Padding(1, 0, 18, 0);
-            this.ssStatusInfo_Top.Size = new System.Drawing.Size(869, 22);
+            this.ssStatusInfo_Top.Size = new System.Drawing.Size(883, 22);
             this.ssStatusInfo_Top.SizingGrip = false;
             this.ssStatusInfo_Top.TabIndex = 1;
             this.ssStatusInfo_Top.Text = "statusStrip1";
@@ -728,29 +725,19 @@
             this.tlInterecept_CNT.Size = new System.Drawing.Size(15, 17);
             this.tlInterecept_CNT.Text = "0";
             // 
-            // toolStripStatusLabel6
+            // cmsSocketInfo
             // 
-            this.toolStripStatusLabel6.ForeColor = System.Drawing.Color.DarkGray;
-            this.toolStripStatusLabel6.Name = "toolStripStatusLabel6";
-            this.toolStripStatusLabel6.Size = new System.Drawing.Size(11, 17);
-            this.toolStripStatusLabel6.Text = "|";
+            this.cmsSocketInfo.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiSend});
+            this.cmsSocketInfo.Name = "cmsSocketInfo";
+            this.cmsSocketInfo.Size = new System.Drawing.Size(153, 48);
+            this.cmsSocketInfo.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.cmsSocketInfo_ItemClicked);
             // 
-            // tlSendPacket
+            // tsmiSend
             // 
-            this.tlSendPacket.Name = "tlSendPacket";
-            this.tlSendPacket.Size = new System.Drawing.Size(47, 17);
-            this.tlSendPacket.Text = "已发送:";
-            // 
-            // tlSendPacket_CNT
-            // 
-            this.tlSendPacket_CNT.Name = "tlSendPacket_CNT";
-            this.tlSendPacket_CNT.Size = new System.Drawing.Size(15, 17);
-            this.tlSendPacket_CNT.Text = "0";
-            // 
-            // bgwSendPacket
-            // 
-            this.bgwSendPacket.WorkerSupportsCancellation = true;
-            this.bgwSendPacket.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwSendPacket_DoWork);
+            this.tsmiSend.Name = "tsmiSend";
+            this.tsmiSend.Size = new System.Drawing.Size(152, 22);
+            this.tsmiSend.Text = "发送";
             // 
             // gbSearch_Bottom
             // 
@@ -759,18 +746,18 @@
             this.gbSearch_Bottom.Controls.Add(this.lSearch);
             this.gbSearch_Bottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.gbSearch_Bottom.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.gbSearch_Bottom.Location = new System.Drawing.Point(0, 452);
+            this.gbSearch_Bottom.Location = new System.Drawing.Point(0, 418);
             this.gbSearch_Bottom.Name = "gbSearch_Bottom";
-            this.gbSearch_Bottom.Size = new System.Drawing.Size(869, 53);
+            this.gbSearch_Bottom.Size = new System.Drawing.Size(883, 53);
             this.gbSearch_Bottom.TabIndex = 4;
             this.gbSearch_Bottom.TabStop = false;
             this.gbSearch_Bottom.Text = "[ 数据搜索 ]";
             // 
             // bSearch
             // 
-            this.bSearch.Location = new System.Drawing.Point(806, 18);
+            this.bSearch.Location = new System.Drawing.Point(811, 18);
             this.bSearch.Name = "bSearch";
-            this.bSearch.Size = new System.Drawing.Size(51, 28);
+            this.bSearch.Size = new System.Drawing.Size(60, 28);
             this.bSearch.TabIndex = 2;
             this.bSearch.Text = "搜索";
             this.bSearch.UseVisualStyleBackColor = true;
@@ -792,137 +779,6 @@
             this.lSearch.TabIndex = 0;
             this.lSearch.Text = "搜索内容（十六进制）：";
             // 
-            // gbSend_Bottom
-            // 
-            this.gbSend_Bottom.Controls.Add(this.bSendStop);
-            this.gbSend_Bottom.Controls.Add(this.bSend);
-            this.gbSend_Bottom.Controls.Add(this.txtSend_Int);
-            this.gbSend_Bottom.Controls.Add(this.lSend_Int);
-            this.gbSend_Bottom.Controls.Add(this.txtSend_CNT);
-            this.gbSend_Bottom.Controls.Add(this.lSend_CNT);
-            this.gbSend_Bottom.Controls.Add(this.txtSend_Len);
-            this.gbSend_Bottom.Controls.Add(this.lSend_Len);
-            this.gbSend_Bottom.Controls.Add(this.txtSend_IP);
-            this.gbSend_Bottom.Controls.Add(this.txtSend_Socket);
-            this.gbSend_Bottom.Controls.Add(this.lSend_IP);
-            this.gbSend_Bottom.Controls.Add(this.lSend_Socket);
-            this.gbSend_Bottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.gbSend_Bottom.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.gbSend_Bottom.Location = new System.Drawing.Point(0, 397);
-            this.gbSend_Bottom.Name = "gbSend_Bottom";
-            this.gbSend_Bottom.Size = new System.Drawing.Size(869, 55);
-            this.gbSend_Bottom.TabIndex = 3;
-            this.gbSend_Bottom.TabStop = false;
-            this.gbSend_Bottom.Text = "[ 发送封包 ] - 以十六进制数据发送";
-            // 
-            // bSendStop
-            // 
-            this.bSendStop.Location = new System.Drawing.Point(794, 19);
-            this.bSendStop.Name = "bSendStop";
-            this.bSendStop.Size = new System.Drawing.Size(63, 30);
-            this.bSendStop.TabIndex = 11;
-            this.bSendStop.Text = "停止 (&T)";
-            this.bSendStop.UseVisualStyleBackColor = true;
-            this.bSendStop.Click += new System.EventHandler(this.bSendStop_Click);
-            // 
-            // bSend
-            // 
-            this.bSend.Location = new System.Drawing.Point(719, 19);
-            this.bSend.Name = "bSend";
-            this.bSend.Size = new System.Drawing.Size(63, 30);
-            this.bSend.TabIndex = 10;
-            this.bSend.Text = "发送 (&F)";
-            this.bSend.UseVisualStyleBackColor = true;
-            this.bSend.Click += new System.EventHandler(this.bSend_Click);
-            // 
-            // txtSend_Int
-            // 
-            this.txtSend_Int.Location = new System.Drawing.Point(653, 23);
-            this.txtSend_Int.Name = "txtSend_Int";
-            this.txtSend_Int.Size = new System.Drawing.Size(50, 23);
-            this.txtSend_Int.TabIndex = 9;
-            this.txtSend_Int.Text = "1000";
-            this.txtSend_Int.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // lSend_Int
-            // 
-            this.lSend_Int.AutoSize = true;
-            this.lSend_Int.Location = new System.Drawing.Point(566, 26);
-            this.lSend_Int.Name = "lSend_Int";
-            this.lSend_Int.Size = new System.Drawing.Size(83, 17);
-            this.lSend_Int.TabIndex = 8;
-            this.lSend_Int.Text = "间隔（毫秒）:";
-            // 
-            // txtSend_CNT
-            // 
-            this.txtSend_CNT.Location = new System.Drawing.Point(512, 23);
-            this.txtSend_CNT.Name = "txtSend_CNT";
-            this.txtSend_CNT.Size = new System.Drawing.Size(50, 23);
-            this.txtSend_CNT.TabIndex = 7;
-            this.txtSend_CNT.Text = "1";
-            this.txtSend_CNT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // lSend_CNT
-            // 
-            this.lSend_CNT.AutoSize = true;
-            this.lSend_CNT.Location = new System.Drawing.Point(471, 26);
-            this.lSend_CNT.Name = "lSend_CNT";
-            this.lSend_CNT.Size = new System.Drawing.Size(44, 17);
-            this.lSend_CNT.TabIndex = 6;
-            this.lSend_CNT.Text = "次数：";
-            // 
-            // txtSend_Len
-            // 
-            this.txtSend_Len.Location = new System.Drawing.Point(179, 23);
-            this.txtSend_Len.Name = "txtSend_Len";
-            this.txtSend_Len.Size = new System.Drawing.Size(50, 23);
-            this.txtSend_Len.TabIndex = 3;
-            this.txtSend_Len.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // lSend_Len
-            // 
-            this.lSend_Len.AutoSize = true;
-            this.lSend_Len.Location = new System.Drawing.Point(140, 26);
-            this.lSend_Len.Name = "lSend_Len";
-            this.lSend_Len.Size = new System.Drawing.Size(44, 17);
-            this.lSend_Len.TabIndex = 2;
-            this.lSend_Len.Text = "长度：";
-            // 
-            // txtSend_IP
-            // 
-            this.txtSend_IP.Location = new System.Drawing.Point(297, 23);
-            this.txtSend_IP.Name = "txtSend_IP";
-            this.txtSend_IP.ReadOnly = true;
-            this.txtSend_IP.Size = new System.Drawing.Size(168, 23);
-            this.txtSend_IP.TabIndex = 5;
-            this.txtSend_IP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // txtSend_Socket
-            // 
-            this.txtSend_Socket.Location = new System.Drawing.Point(66, 23);
-            this.txtSend_Socket.Name = "txtSend_Socket";
-            this.txtSend_Socket.Size = new System.Drawing.Size(68, 23);
-            this.txtSend_Socket.TabIndex = 1;
-            this.txtSend_Socket.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // lSend_IP
-            // 
-            this.lSend_IP.AutoSize = true;
-            this.lSend_IP.Location = new System.Drawing.Point(235, 26);
-            this.lSend_IP.Name = "lSend_IP";
-            this.lSend_IP.Size = new System.Drawing.Size(68, 17);
-            this.lSend_IP.TabIndex = 4;
-            this.lSend_IP.Text = "目的地址：";
-            // 
-            // lSend_Socket
-            // 
-            this.lSend_Socket.AutoSize = true;
-            this.lSend_Socket.Location = new System.Drawing.Point(14, 26);
-            this.lSend_Socket.Name = "lSend_Socket";
-            this.lSend_Socket.Size = new System.Drawing.Size(56, 17);
-            this.lSend_Socket.TabIndex = 0;
-            this.lSend_Socket.Text = "套接字：";
-            // 
             // lvSocketInfo
             // 
             this.lvSocketInfo.BackColor = System.Drawing.Color.Black;
@@ -934,6 +790,7 @@
             this.chIPTo,
             this.chLen,
             this.chData});
+            this.lvSocketInfo.ContextMenuStrip = this.cmsSocketInfo;
             this.lvSocketInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvSocketInfo.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lvSocketInfo.ForeColor = System.Drawing.Color.LawnGreen;
@@ -943,7 +800,7 @@
             this.lvSocketInfo.Location = new System.Drawing.Point(0, 138);
             this.lvSocketInfo.MultiSelect = false;
             this.lvSocketInfo.Name = "lvSocketInfo";
-            this.lvSocketInfo.Size = new System.Drawing.Size(869, 259);
+            this.lvSocketInfo.Size = new System.Drawing.Size(883, 280);
             this.lvSocketInfo.TabIndex = 2;
             this.lvSocketInfo.UseCompatibleStateImageBehavior = false;
             this.lvSocketInfo.View = System.Windows.Forms.View.Details;
@@ -990,9 +847,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(869, 670);
+            this.ClientSize = new System.Drawing.Size(883, 636);
             this.Controls.Add(this.lvSocketInfo);
-            this.Controls.Add(this.gbSend_Bottom);
             this.Controls.Add(this.gbSearch_Bottom);
             this.Controls.Add(this.ssStatusInfo_Top);
             this.Controls.Add(this.gbBottom);
@@ -1023,10 +879,9 @@
             this.tpDebug.ResumeLayout(false);
             this.ssStatusInfo_Top.ResumeLayout(false);
             this.ssStatusInfo_Top.PerformLayout();
+            this.cmsSocketInfo.ResumeLayout(false);
             this.gbSearch_Bottom.ResumeLayout(false);
             this.gbSearch_Bottom.PerformLayout();
-            this.gbSend_Bottom.ResumeLayout(false);
-            this.gbSend_Bottom.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1081,34 +936,26 @@
         private System.Windows.Forms.ToolStripStatusLabel tlQueue;
         private System.Windows.Forms.ToolStripStatusLabel tlQueue_CNT;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel5;
-        private System.Windows.Forms.ToolStripStatusLabel tlSendPacket;
-        private System.Windows.Forms.ToolStripStatusLabel tlSendPacket_CNT;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
         private System.Windows.Forms.RichTextBox rtbHEX;
         private System.Windows.Forms.RichTextBox rtbBIN;
         private System.Windows.Forms.ToolStripStatusLabel tlSystemInfo;
-        private System.ComponentModel.BackgroundWorker bgwSendPacket;
         private System.Windows.Forms.CheckBox cbType_RecvFrom;
         private System.Windows.Forms.CheckBox cbType_Recv;
         private System.Windows.Forms.CheckBox cbType_SendTo;
         private System.Windows.Forms.CheckBox cbType_Send;
+        private System.Windows.Forms.CheckBox cbInterecept_RecvFrom;
+        private System.Windows.Forms.CheckBox cbInterecept_Recv;
+        private System.Windows.Forms.CheckBox cbInterecept_SendTo;
+        private System.Windows.Forms.CheckBox cbInterecept_Send;
+        private System.Windows.Forms.ToolStripStatusLabel tlInterecept;
+        private System.Windows.Forms.ToolStripStatusLabel tlInterecept_CNT;
         private System.Windows.Forms.GroupBox gbSearch_Bottom;
         private System.Windows.Forms.Button bSearch;
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Label lSearch;
-        private System.Windows.Forms.GroupBox gbSend_Bottom;
-        private System.Windows.Forms.Button bSendStop;
-        private System.Windows.Forms.Button bSend;
-        private System.Windows.Forms.TextBox txtSend_Int;
-        private System.Windows.Forms.Label lSend_Int;
-        private System.Windows.Forms.TextBox txtSend_CNT;
-        private System.Windows.Forms.Label lSend_CNT;
-        private System.Windows.Forms.TextBox txtSend_Len;
-        private System.Windows.Forms.Label lSend_Len;
-        private System.Windows.Forms.TextBox txtSend_IP;
-        private System.Windows.Forms.TextBox txtSend_Socket;
-        private System.Windows.Forms.Label lSend_IP;
-        private System.Windows.Forms.Label lSend_Socket;
+        private System.Windows.Forms.ContextMenuStrip cmsSocketInfo;
+        private System.Windows.Forms.ToolStripMenuItem tsmiSend;
         private System.Windows.Forms.ListView lvSocketInfo;
         private System.Windows.Forms.ColumnHeader chNum;
         private System.Windows.Forms.ColumnHeader chType;
@@ -1117,12 +964,6 @@
         private System.Windows.Forms.ColumnHeader chIPTo;
         private System.Windows.Forms.ColumnHeader chLen;
         private System.Windows.Forms.ColumnHeader chData;
-        private System.Windows.Forms.CheckBox cbInterecept_RecvFrom;
-        private System.Windows.Forms.CheckBox cbInterecept_Recv;
-        private System.Windows.Forms.CheckBox cbInterecept_SendTo;
-        private System.Windows.Forms.CheckBox cbInterecept_Send;
-        private System.Windows.Forms.ToolStripStatusLabel tlInterecept;
-        private System.Windows.Forms.ToolStripStatusLabel tlInterecept_CNT;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel6;
+        private System.Windows.Forms.CheckBox cbCleanSocket;
     }
 }

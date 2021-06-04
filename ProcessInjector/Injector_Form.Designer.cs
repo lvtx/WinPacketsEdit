@@ -36,7 +36,6 @@
             this.lProcessName = new System.Windows.Forms.Label();
             this.pFill = new System.Windows.Forms.Panel();
             this.rtbLog = new System.Windows.Forms.RichTextBox();
-            this.bgwSendMail = new System.ComponentModel.BackgroundWorker();
             this.pTop.SuspendLayout();
             this.pFill.SuspendLayout();
             this.SuspendLayout();
@@ -112,10 +111,6 @@
             this.rtbLog.TabIndex = 0;
             this.rtbLog.Text = "";
             // 
-            // bgwSendMail
-            // 
-            this.bgwSendMail.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwSendMail_DoWork);
-            // 
             // Injector_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -146,7 +141,6 @@
         private System.Windows.Forms.Label lProcessName;
         private System.Windows.Forms.Button bInject;
         private System.Windows.Forms.RichTextBox rtbLog;
-        private System.ComponentModel.BackgroundWorker bgwSendMail;
     }
 }
 

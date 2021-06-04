@@ -17,15 +17,16 @@ namespace WPELibrary
     public partial class DLL_Form : Form
     {
         private Queue<SocketInfo> _SocketQueue = new Queue<SocketInfo>();
+        private SocketInfo Socket_Info = new SocketInfo();
         private DataTable dtSocketInfo = new DataTable();
         private LocalHook lhSend = null;
         private LocalHook lhSendTo = null;
         private LocalHook lhRecv = null;
         private LocalHook lhRecvFrom = null;
+        private int Select_Index = -1;
         private int SendCNT = 0;
         private int RecvCNT = 0;
         private int FilterCNT = 0;
-        private int SendPacketCNT = 0;
         private int IntereceptCNT = 0;
         private bool bDebug = true;
 
@@ -72,8 +73,6 @@ namespace WPELibrary
             }
             this.bStartHook.Enabled = true;
             this.bStopHook.Enabled = false;
-            this.bSend.Enabled = true;
-            this.bSendStop.Enabled = false;
             this.tSocketInfo.Enabled = true;
             this.dtSocketInfo.Columns.Add("字节", typeof(byte[]));
             this.InitAllInfo();
@@ -98,7 +97,6 @@ namespace WPELibrary
             this.tlRecv_CNT.Text = this.RecvCNT.ToString();
             this.tlSend_CNT.Text = this.SendCNT.ToString();
             this.tlFilter_CNT.Text = this.FilterCNT.ToString();
-            this.tlSendPacket_CNT.Text = this.SendPacketCNT.ToString();
             this.tlInterecept_CNT.Text = this.IntereceptCNT.ToString();
             if (!this.bgwSocketInfo.IsBusy && (this._SocketQueue.Count > 0))
             {
@@ -109,11 +107,6 @@ namespace WPELibrary
         private void bgwSocketInfo_DoWork(object sender, DoWorkEventArgs e)
         {
             this.ShowSocketInfo();
-        }
-
-        private void bgwSendPacket_DoWork(object sender, DoWorkEventArgs e)
-        {
-            this.SendPacket();
         }
 
         private void bStartHook_Click(object sender, EventArgs e)
@@ -148,31 +141,36 @@ namespace WPELibrary
             }
         }
 
+        private void cmsSocketInfo_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            string text = e.ClickedItem.Text;
+            try
+            {
+                if (text.Equals("发送") && (((this.Select_Index > -1) && (this.lvSocketInfo.SelectedItems.Count > 0)) && (this.dtSocketInfo.Rows.Count > 0)))
+                {
+                    new SocketSend_Form
+                    {
+                        Send_Index = (this.Select_Index + 1).ToString(),
+                        Send_Socket = this.lvSocketInfo.Items[this.Select_Index].SubItems[2].Text.Trim(),
+                        Send_Len = this.lvSocketInfo.Items[this.Select_Index].SubItems[5].Text.Trim(),
+                        Send_IPTo = this.lvSocketInfo.Items[this.Select_Index].SubItems[4].Text.Trim(),
+                        Send_Byte = (byte[])this.dtSocketInfo.Rows[this.Select_Index]["字节"]
+                    }.Show();
+                }
+            }
+            catch (Exception exception)
+            {
+                this.ShowDebug(exception.Message);
+            }
+        }
+
         private void lvSocketInfo_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (this.lvSocketInfo.SelectedItems.Count == 1)
             {
-                int index = this.lvSocketInfo.SelectedItems[0].Index;
-                this.ShowPacketInfo(index);
+                this.Select_Index = this.lvSocketInfo.SelectedItems[0].Index;
+                this.ShowPacketInfo();
             }
-        }
-
-        private void bSend_Click(object sender, EventArgs e)
-        {
-            this.bSend.Enabled = false;
-            this.bSendStop.Enabled = true;
-            this.SendPacketCNT = 0;
-            if (!this.bgwSendPacket.IsBusy)
-            {
-                this.bgwSendPacket.RunWorkerAsync();
-            }
-        }
-
-        private void bSendStop_Click(object sender, EventArgs e)
-        {
-            this.bgwSendPacket.CancelAsync();
-            this.bSend.Enabled = true;
-            this.bSendStop.Enabled = false;
         }
 
         private void bSearch_Click(object sender, EventArgs e)
@@ -194,187 +192,23 @@ namespace WPELibrary
 
         private void InitAllInfo()
         {
-            this.RecvCNT = 0;
-            this.SendCNT = 0;
-            this.FilterCNT = 0;
-            this.SendPacketCNT = 0;
-            this.IntereceptCNT = 0;
-            this.dtSocketInfo.Rows.Clear();
-            this._SocketQueue.Clear();
-            this.lvSocketInfo.Items.Clear();
-            this.rtbHEX.Clear();
-            this.rtbDEC.Clear();
-            this.rtbBIN.Clear();
-            this.rtbUNICODE.Clear();
-            this.rtbUTF8.Clear();
-            this.rtbGB2312.Clear();
-            this.rtbDEBUG.Clear();
-        }
-
-        /// <summary>
-        /// 字节转字符
-        /// </summary>
-        /// <param name="buffer">字节数据</param>
-        /// <returns>字符串</returns>
-        private string Byte_To_Default(byte[] buffer)
-        {
-            string strResult = string.Empty;
-            try
+            if (this.cbCleanSocket.Checked)
             {
-                strResult = Encoding.Default.GetString(buffer);
+                this.RecvCNT = 0;
+                this.SendCNT = 0;
+                this.FilterCNT = 0;
+                this.IntereceptCNT = 0;
+                this.dtSocketInfo.Rows.Clear();
+                this._SocketQueue.Clear();
+                this.lvSocketInfo.Items.Clear();
+                this.rtbHEX.Clear();
+                this.rtbDEC.Clear();
+                this.rtbBIN.Clear();
+                this.rtbUNICODE.Clear();
+                this.rtbUTF8.Clear();
+                this.rtbGB2312.Clear();
+                this.rtbDEBUG.Clear();
             }
-            catch (Exception ex)
-            {
-                this.ShowDebug(ex.Message);
-            }
-            return strResult;
-        }
-
-        /// <summary>
-        /// 字节转十六进制
-        /// </summary>
-        /// <param name="buffer">字节数据</param>
-        /// <returns>十六进制字符串</returns>
-        private string Byte_To_Hex(byte[] buffer)
-        {
-            string strResult = string.Empty;
-            try
-            {
-                foreach (byte bytes in buffer)
-                {
-                    strResult += bytes.ToString("X2") + " ";
-                }
-                strResult.Trim();
-            }
-            catch (Exception ex)
-            {
-                this.ShowDebug(ex.Message);
-            }
-            return strResult;
-        }
-
-        /// <summary>
-        /// 十六进制转字节
-        /// </summary>
-        /// <param name="hexString">十六进制字符串</param>
-        /// <returns>字节数据</returns>
-        public byte[] Hex_To_Byte(string hexString)
-        {
-            hexString = hexString.Replace(" ", "");
-            if ((hexString.Length % 2) != 0)
-            {
-                hexString += " ";
-            }
-            byte[] buffer = new byte[hexString.Length / 2];
-            for (int i = 0; i < buffer.Length; i++)
-            {
-                buffer[i] = Convert.ToByte(hexString.Substring(i * 2, 2), 16);
-            }
-            return buffer;
-        }
-
-        /// <summary>
-        /// 字节转十进制
-        /// </summary>
-        /// <param name="buffer">字节数据</param>
-        /// <returns>十进制字符串</returns>
-        private string Byte_To_Dec(byte[] buffer)
-        {
-            string strResult = string.Empty;
-            try
-            {
-                foreach (byte bytes in buffer)
-                {
-                    strResult += bytes.ToString("D3") + " ";
-                }
-            }
-            catch (Exception ex)
-            {
-                this.ShowDebug(ex.Message);
-            }
-            return strResult;
-        }
-
-        /// <summary>
-        /// 字节转二进制
-        /// </summary>
-        /// <param name="buffer">字节数据</param>
-        /// <returns>二进制字符串</returns>
-        private string Byte_To_Bin(byte[] buffer)
-        {
-            string strResult = string.Empty;
-            try
-            {
-                foreach (byte bytes in buffer)
-                {
-                    string strTemp = Convert.ToString(bytes, 2);
-                    strTemp = strTemp.Insert(0, new string('0', 8 - strTemp.Length));
-                    strResult += strTemp + " ";
-                }
-                strResult.Trim();
-            }
-            catch (Exception ex)
-            {
-                this.ShowDebug(ex.Message);
-            }
-            return strResult;
-        }
-
-        /// <summary>
-        /// 字节转UNICODE
-        /// </summary>
-        /// <param name="buffer">字节数据</param>
-        /// <returns>UNICODE字符串</returns>
-        private string Byte_To_Unicode(byte[] buffer)
-        {
-            string strResult = string.Empty;
-            try
-            {
-                strResult = Encoding.GetEncoding("utf-16").GetString(buffer);
-            }
-            catch (Exception ex)
-            {
-                this.ShowDebug(ex.Message);
-            }
-            return strResult;
-        }
-
-        /// <summary>
-        /// 字节转UTF-8
-        /// </summary>
-        /// <param name="buffer">字节数据</param>
-        /// <returns>UTF-8字符串</returns>
-        private string Byte_To_UTF8(byte[] buffer)
-        {
-            string strResult = string.Empty;
-            try
-            {
-                strResult = Encoding.GetEncoding("utf-8").GetString(buffer);
-            }
-            catch (Exception ex)
-            {
-                this.ShowDebug(ex.Message);
-            }
-            return strResult;
-        }
-
-        /// <summary>
-        /// 字节转GB2312
-        /// </summary>
-        /// <param name="buffer">字节数据</param>
-        /// <returns>GB2312字符串</returns>
-        private string Byte_To_GB2312(byte[] buffer)
-        {
-            string strResult = string.Empty;
-            try
-            {
-                strResult = Encoding.GetEncoding("gb2312").GetString(buffer);
-            }
-            catch (Exception ex)
-            {
-                this.ShowDebug(ex.Message);
-            }
-            return strResult;
         }
 
         private bool Filter(SocketInfo s)
@@ -386,7 +220,7 @@ namespace WPELibrary
                 if (this.Filter_Size(s.Length)) return false;
                 if (this.Filter_Socket(socket)) return false;
                 if (this.Filter_IP(this.GetSocketIP(socket, "F"), this.GetSocketIP(socket, "T"))) return false;
-                if (this.Filter_Packet(this.Byte_To_Hex(s.Buffer))) return false;
+                if (this.Filter_Packet(this.Socket_Info.Byte_To_Hex(s.Buffer))) return false;
             }
             catch (Exception ex)
             {
@@ -615,42 +449,6 @@ namespace WPELibrary
             return iLen;
         }
 
-        private void SendPacket()
-        {
-            try
-            {
-                int socket = int.Parse(this.txtSend_Socket.Text.Trim());
-                int len = int.Parse(this.txtSend_Len.Text.Trim());
-                byte[] buffer = this.Hex_To_Byte(this.rtbHEX.Text);
-                int number = int.Parse(this.txtSend_CNT.Text.Trim());
-                int times = int.Parse(this.txtSend_Int.Text.Trim());
-                IntPtr destination = Marshal.AllocHGlobal(buffer.Length);
-                Marshal.Copy(buffer, 0, destination, buffer.Length);
-                if ((socket > 0 && buffer.Length != 0) && number > 0)
-                {
-                    for (int i = 0; i < number; i++)
-                    {
-                        if (this.bgwSendPacket.CancellationPending) return;
-
-                        int iError = send(socket, destination, buffer.Length, 0);
-                        this.SendPacketCNT++;
-                        int cnt = number - this.SendPacketCNT;
-                        if (cnt > 0)
-                        {
-                            this.txtSend_CNT.Text = cnt.ToString();
-                        }
-                        Thread.Sleep(times);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                this.ShowDebug(ex.Message);
-            }
-            this.bSend.Enabled = true;
-            this.bSendStop.Enabled = false;
-        }
-
         [DllImport("ws2_32.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode, SetLastError = true)]
         private static extern int sendto(int socket, IntPtr buffer, int length, int flags, ref sockaddr To, ref int toLenth);
         private int SendTo_Hook(int socket, IntPtr buffer, int length, int flags, ref sockaddr To, ref int toLenth)
@@ -684,47 +482,23 @@ namespace WPELibrary
             }
         }
 
-        private void ShowPacketInfo(int iIndex)
+        private void ShowPacketInfo()
         {
             if (this.dtSocketInfo.Rows.Count > 0)
             {
                 try
                 {
-                    this.txtSend_Socket.Text = this.lvSocketInfo.Items[iIndex].SubItems[2].Text.Trim();
+                    byte[] buffer = (byte[])this.dtSocketInfo.Rows[this.Select_Index]["字节"];
+                    this.rtbHEX.Text = this.Socket_Info.Byte_To_Hex(buffer);
+                    this.rtbDEC.Text = this.Socket_Info.Byte_To_Dec(buffer);
+                    this.rtbBIN.Text = this.Socket_Info.Byte_To_Bin(buffer);
+                    this.rtbUNICODE.Text = this.Socket_Info.Byte_To_Unicode(buffer);
+                    this.rtbUTF8.Text = this.Socket_Info.Byte_To_UTF8(buffer);
+                    this.rtbGB2312.Text = this.Socket_Info.Byte_To_GB2312(buffer);
                 }
-                catch
+                catch (Exception exception)
                 {
-                    this.txtSend_Socket.Text = string.Empty;
-                }
-                try
-                {
-                    this.txtSend_Len.Text = this.lvSocketInfo.Items[iIndex].SubItems[5].Text.Trim();
-                }
-                catch
-                {
-                    this.txtSend_Len.Text = string.Empty;
-                }
-                try
-                {
-                    this.txtSend_IP.Text = this.lvSocketInfo.Items[iIndex].SubItems[4].Text.Trim();
-                }
-                catch
-                {
-                    this.txtSend_IP.Text = string.Empty;
-                }
-                try
-                {
-                    byte[] buffer = (byte[])this.dtSocketInfo.Rows[iIndex]["字节"];
-                    this.rtbHEX.Text = this.Byte_To_Hex(buffer);
-                    this.rtbDEC.Text = this.Byte_To_Dec(buffer);
-                    this.rtbBIN.Text = this.Byte_To_Bin(buffer);
-                    this.rtbUNICODE.Text = this.Byte_To_Unicode(buffer);
-                    this.rtbUTF8.Text = this.Byte_To_UTF8(buffer);
-                    this.rtbGB2312.Text = this.Byte_To_GB2312(buffer);
-                }
-                catch (Exception ex)
-                {
-                    this.ShowDebug(ex.Message);
+                    this.ShowDebug(exception.Message);
                 }
             }
         }
@@ -747,7 +521,7 @@ namespace WPELibrary
                             string sIP_To = "";
                             byte[] buffer = s.Buffer;
                             int length = s.Length;
-                            string sHex = this.Byte_To_Hex(buffer);
+                            string sHex = this.Socket_Info.Byte_To_Hex(buffer);
                             if (s.Type.Equals("R"))
                             {
                                 sType = "接收";

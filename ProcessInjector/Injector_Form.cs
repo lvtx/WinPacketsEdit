@@ -17,6 +17,7 @@ namespace ProcessInjector
 {
     public partial class Injector_Form : Form
     {
+        private string Version = "";
         private string ProcessName = "";
         private int ProcessID = -1;
         private ComputerInfo ci = new ComputerInfo();
@@ -25,11 +26,8 @@ namespace ProcessInjector
         {
             InitializeComponent();
             this.Text = "进程注入器（x86, x64自适应）by RNShinoa";
-        }
-
-        private void bgwSendMail_DoWork(object sender, DoWorkEventArgs e)
-        {
-
+            this.Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            this.ShowLog("当前内核版本：" + this.Version);
         }
 
         private void bSelectProcess_Click(object sender, EventArgs e)
