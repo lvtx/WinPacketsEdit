@@ -77,22 +77,19 @@ namespace ProcessInjector
 
         private bool IsWin64Process(int ProcessID)
         {
-            Process processById = Process.GetProcessById(ProcessID);
-            
-            if (processById != null)
+            bool retVal = false;
+            Process process = Process.GetProcessById(ProcessID);
+
+            if (process != null)
             {
                 if ((Environment.OSVersion.Version.Major == 5 && Environment.OSVersion.Version.Minor >= 1) || 
                     Environment.OSVersion.Version.Major > 5)
                 {
-                    bool retVal;
-                    if (!IsWow64Process(processById.Handle, out retVal))
-                    {
-                        return false;
-                    }
-                    return retVal;
+                    IsWow64Process(process.Handle, out retVal);
+                    return !retVal;
                 }
             }
-            return false;
+            return retVal;
         }
 
         [return: MarshalAs(UnmanagedType.Bool)]
