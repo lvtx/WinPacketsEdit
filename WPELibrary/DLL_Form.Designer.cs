@@ -80,6 +80,10 @@
             this.tsmiSend = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiBatchSend = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmiUseSocket = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmiShowBatchSend = new System.Windows.Forms.ToolStripMenuItem();
             this.tlFilter_CNT = new System.Windows.Forms.ToolStripStatusLabel();
             this.ssStatusInfo_Top = new System.Windows.Forms.StatusStrip();
             this.tlSystemInfo = new System.Windows.Forms.ToolStripStatusLabel();
@@ -142,7 +146,7 @@
             this.cbDisplay_SendTo.Location = new System.Drawing.Point(69, 34);
             this.cbDisplay_SendTo.Name = "cbDisplay_SendTo";
             this.cbDisplay_SendTo.Size = new System.Drawing.Size(63, 21);
-            this.cbDisplay_SendTo.TabIndex = 1;
+            this.cbDisplay_SendTo.TabIndex = 5;
             this.cbDisplay_SendTo.Text = "发送到";
             this.cbDisplay_SendTo.UseVisualStyleBackColor = true;
             // 
@@ -152,7 +156,7 @@
             this.cbFilter_Packet.Location = new System.Drawing.Point(17, 81);
             this.cbFilter_Packet.Name = "cbFilter_Packet";
             this.cbFilter_Packet.Size = new System.Drawing.Size(99, 21);
-            this.cbFilter_Packet.TabIndex = 39;
+            this.cbFilter_Packet.TabIndex = 2;
             this.cbFilter_Packet.Text = "过滤封包内容";
             this.cbFilter_Packet.UseVisualStyleBackColor = true;
             // 
@@ -163,7 +167,7 @@
             this.bStopHook.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.bStopHook.Name = "bStopHook";
             this.bStopHook.Size = new System.Drawing.Size(75, 33);
-            this.bStopHook.TabIndex = 19;
+            this.bStopHook.TabIndex = 10;
             this.bStopHook.Text = "结 束 (&J)";
             this.bStopHook.UseVisualStyleBackColor = true;
             this.bStopHook.Click += new System.EventHandler(this.bStopHook_Click);
@@ -174,7 +178,7 @@
             this.txtFilter_IP.Location = new System.Drawing.Point(116, 51);
             this.txtFilter_IP.Name = "txtFilter_IP";
             this.txtFilter_IP.Size = new System.Drawing.Size(399, 22);
-            this.txtFilter_IP.TabIndex = 38;
+            this.txtFilter_IP.TabIndex = 4;
             this.txtFilter_IP.WordWrap = false;
             // 
             // cbDisplay_RecvFrom
@@ -185,7 +189,7 @@
             this.cbDisplay_RecvFrom.Location = new System.Drawing.Point(69, 78);
             this.cbDisplay_RecvFrom.Name = "cbDisplay_RecvFrom";
             this.cbDisplay_RecvFrom.Size = new System.Drawing.Size(63, 21);
-            this.cbDisplay_RecvFrom.TabIndex = 25;
+            this.cbDisplay_RecvFrom.TabIndex = 7;
             this.cbDisplay_RecvFrom.Text = "接收自";
             this.cbDisplay_RecvFrom.UseVisualStyleBackColor = true;
             // 
@@ -195,7 +199,7 @@
             this.cbFilter_Size.Location = new System.Drawing.Point(10, 14);
             this.cbFilter_Size.Name = "cbFilter_Size";
             this.cbFilter_Size.Size = new System.Drawing.Size(75, 21);
-            this.cbFilter_Size.TabIndex = 27;
+            this.cbFilter_Size.TabIndex = 0;
             this.cbFilter_Size.Text = "封包长度";
             this.cbFilter_Size.UseVisualStyleBackColor = true;
             // 
@@ -205,7 +209,7 @@
             this.txtFilter_Size_From.Location = new System.Drawing.Point(15, 41);
             this.txtFilter_Size_From.Name = "txtFilter_Size_From";
             this.txtFilter_Size_From.Size = new System.Drawing.Size(57, 22);
-            this.txtFilter_Size_From.TabIndex = 28;
+            this.txtFilter_Size_From.TabIndex = 1;
             this.txtFilter_Size_From.Text = "0";
             this.txtFilter_Size_From.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -215,7 +219,7 @@
             this.txtFilter_Size_To.Location = new System.Drawing.Point(15, 74);
             this.txtFilter_Size_To.Name = "txtFilter_Size_To";
             this.txtFilter_Size_To.Size = new System.Drawing.Size(57, 22);
-            this.txtFilter_Size_To.TabIndex = 29;
+            this.txtFilter_Size_To.TabIndex = 3;
             this.txtFilter_Size_To.Text = "100";
             this.txtFilter_Size_To.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -225,7 +229,7 @@
             this.cbInterecept_Recv.Location = new System.Drawing.Point(9, 57);
             this.cbInterecept_Recv.Name = "cbInterecept_Recv";
             this.cbInterecept_Recv.Size = new System.Drawing.Size(60, 21);
-            this.cbInterecept_Recv.TabIndex = 28;
+            this.cbInterecept_Recv.TabIndex = 2;
             this.cbInterecept_Recv.Text = "拦截 -";
             this.cbInterecept_Recv.UseVisualStyleBackColor = true;
             // 
@@ -235,7 +239,7 @@
             this.cbInterecept_SendTo.Location = new System.Drawing.Point(9, 34);
             this.cbInterecept_SendTo.Name = "cbInterecept_SendTo";
             this.cbInterecept_SendTo.Size = new System.Drawing.Size(60, 21);
-            this.cbInterecept_SendTo.TabIndex = 27;
+            this.cbInterecept_SendTo.TabIndex = 1;
             this.cbInterecept_SendTo.Text = "拦截 -";
             this.cbInterecept_SendTo.UseVisualStyleBackColor = true;
             // 
@@ -246,7 +250,7 @@
             this.lSplit.Location = new System.Drawing.Point(35, 59);
             this.lSplit.Name = "lSplit";
             this.lSplit.Size = new System.Drawing.Size(17, 17);
-            this.lSplit.TabIndex = 30;
+            this.lSplit.TabIndex = 2;
             this.lSplit.Text = "~";
             // 
             // txtFilter_Packet
@@ -255,7 +259,7 @@
             this.txtFilter_Packet.Location = new System.Drawing.Point(116, 79);
             this.txtFilter_Packet.Name = "txtFilter_Packet";
             this.txtFilter_Packet.Size = new System.Drawing.Size(399, 22);
-            this.txtFilter_Packet.TabIndex = 40;
+            this.txtFilter_Packet.TabIndex = 5;
             this.txtFilter_Packet.WordWrap = false;
             // 
             // gbFilter_Size
@@ -267,7 +271,7 @@
             this.gbFilter_Size.Location = new System.Drawing.Point(520, 9);
             this.gbFilter_Size.Name = "gbFilter_Size";
             this.gbFilter_Size.Size = new System.Drawing.Size(89, 101);
-            this.gbFilter_Size.TabIndex = 27;
+            this.gbFilter_Size.TabIndex = 6;
             this.gbFilter_Size.TabStop = false;
             // 
             // gbFilter_Type
@@ -284,7 +288,7 @@
             this.gbFilter_Type.Name = "gbFilter_Type";
             this.gbFilter_Type.Padding = new System.Windows.Forms.Padding(1);
             this.gbFilter_Type.Size = new System.Drawing.Size(133, 101);
-            this.gbFilter_Type.TabIndex = 25;
+            this.gbFilter_Type.TabIndex = 7;
             this.gbFilter_Type.TabStop = false;
             // 
             // cbInterecept_RecvFrom
@@ -293,7 +297,7 @@
             this.cbInterecept_RecvFrom.Location = new System.Drawing.Point(9, 78);
             this.cbInterecept_RecvFrom.Name = "cbInterecept_RecvFrom";
             this.cbInterecept_RecvFrom.Size = new System.Drawing.Size(60, 21);
-            this.cbInterecept_RecvFrom.TabIndex = 29;
+            this.cbInterecept_RecvFrom.TabIndex = 3;
             this.cbInterecept_RecvFrom.Text = "拦截 -";
             this.cbInterecept_RecvFrom.UseVisualStyleBackColor = true;
             // 
@@ -303,7 +307,7 @@
             this.cbInterecept_Send.Location = new System.Drawing.Point(9, 11);
             this.cbInterecept_Send.Name = "cbInterecept_Send";
             this.cbInterecept_Send.Size = new System.Drawing.Size(60, 21);
-            this.cbInterecept_Send.TabIndex = 26;
+            this.cbInterecept_Send.TabIndex = 0;
             this.cbInterecept_Send.Text = "拦截 -";
             this.cbInterecept_Send.UseVisualStyleBackColor = true;
             // 
@@ -315,7 +319,7 @@
             this.cbDisplay_Recv.Location = new System.Drawing.Point(69, 57);
             this.cbDisplay_Recv.Name = "cbDisplay_Recv";
             this.cbDisplay_Recv.Size = new System.Drawing.Size(51, 21);
-            this.cbDisplay_Recv.TabIndex = 2;
+            this.cbDisplay_Recv.TabIndex = 6;
             this.cbDisplay_Recv.Text = "接收";
             this.cbDisplay_Recv.UseVisualStyleBackColor = true;
             // 
@@ -327,7 +331,7 @@
             this.cbDisplay_Send.Location = new System.Drawing.Point(69, 11);
             this.cbDisplay_Send.Name = "cbDisplay_Send";
             this.cbDisplay_Send.Size = new System.Drawing.Size(51, 21);
-            this.cbDisplay_Send.TabIndex = 0;
+            this.cbDisplay_Send.TabIndex = 4;
             this.cbDisplay_Send.Text = "发送";
             this.cbDisplay_Send.UseVisualStyleBackColor = true;
             // 
@@ -341,7 +345,7 @@
             this.gbBottom.Name = "gbBottom";
             this.gbBottom.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gbBottom.Size = new System.Drawing.Size(883, 170);
-            this.gbBottom.TabIndex = 43;
+            this.gbBottom.TabIndex = 5;
             this.gbBottom.TabStop = false;
             this.gbBottom.Text = "[ 数据显示方式 ]";
             // 
@@ -359,7 +363,7 @@
             this.tcPacketInfo.Name = "tcPacketInfo";
             this.tcPacketInfo.SelectedIndex = 0;
             this.tcPacketInfo.Size = new System.Drawing.Size(877, 146);
-            this.tcPacketInfo.TabIndex = 10;
+            this.tcPacketInfo.TabIndex = 0;
             this.tcPacketInfo.SelectedIndexChanged += new System.EventHandler(this.tcPacketInfo_SelectedIndexChanged);
             // 
             // tpHEX
@@ -379,7 +383,7 @@
             this.rtbHEX.Location = new System.Drawing.Point(0, 0);
             this.rtbHEX.Name = "rtbHEX";
             this.rtbHEX.Size = new System.Drawing.Size(869, 116);
-            this.rtbHEX.TabIndex = 3;
+            this.rtbHEX.TabIndex = 0;
             this.rtbHEX.Text = "";
             // 
             // tpDEC
@@ -417,7 +421,7 @@
             this.rtbBIN.Location = new System.Drawing.Point(0, 0);
             this.rtbBIN.Name = "rtbBIN";
             this.rtbBIN.Size = new System.Drawing.Size(869, 116);
-            this.rtbBIN.TabIndex = 3;
+            this.rtbBIN.TabIndex = 2;
             this.rtbBIN.Text = "";
             // 
             // tpUNICODE
@@ -436,7 +440,7 @@
             this.rtbUNICODE.Location = new System.Drawing.Point(0, 0);
             this.rtbUNICODE.Name = "rtbUNICODE";
             this.rtbUNICODE.Size = new System.Drawing.Size(869, 116);
-            this.rtbUNICODE.TabIndex = 2;
+            this.rtbUNICODE.TabIndex = 3;
             this.rtbUNICODE.Text = "";
             // 
             // tpUTF8
@@ -455,7 +459,7 @@
             this.rtbUTF8.Location = new System.Drawing.Point(0, 0);
             this.rtbUTF8.Name = "rtbUTF8";
             this.rtbUTF8.Size = new System.Drawing.Size(869, 116);
-            this.rtbUTF8.TabIndex = 2;
+            this.rtbUTF8.TabIndex = 4;
             this.rtbUTF8.Text = "";
             // 
             // tpGB2312
@@ -474,7 +478,7 @@
             this.rtbGB2312.Location = new System.Drawing.Point(0, 0);
             this.rtbGB2312.Name = "rtbGB2312";
             this.rtbGB2312.Size = new System.Drawing.Size(869, 116);
-            this.rtbGB2312.TabIndex = 2;
+            this.rtbGB2312.TabIndex = 5;
             this.rtbGB2312.Text = "";
             // 
             // tpDebug
@@ -493,7 +497,7 @@
             this.rtbDEBUG.Location = new System.Drawing.Point(0, 0);
             this.rtbDEBUG.Name = "rtbDEBUG";
             this.rtbDEBUG.Size = new System.Drawing.Size(869, 116);
-            this.rtbDEBUG.TabIndex = 0;
+            this.rtbDEBUG.TabIndex = 6;
             this.rtbDEBUG.Text = "";
             // 
             // bgwSocketInfo
@@ -511,7 +515,7 @@
             this.bStartHook.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.bStartHook.Name = "bStartHook";
             this.bStartHook.Size = new System.Drawing.Size(75, 33);
-            this.bStartHook.TabIndex = 18;
+            this.bStartHook.TabIndex = 9;
             this.bStartHook.Text = "开 始 (&K)";
             this.bStartHook.UseVisualStyleBackColor = true;
             this.bStartHook.Click += new System.EventHandler(this.bStartHook_Click);
@@ -522,7 +526,7 @@
             this.txtFilter_Socket.Location = new System.Drawing.Point(116, 24);
             this.txtFilter_Socket.Name = "txtFilter_Socket";
             this.txtFilter_Socket.Size = new System.Drawing.Size(399, 22);
-            this.txtFilter_Socket.TabIndex = 36;
+            this.txtFilter_Socket.TabIndex = 3;
             this.txtFilter_Socket.WordWrap = false;
             // 
             // cbFilter_Socket
@@ -531,7 +535,7 @@
             this.cbFilter_Socket.Location = new System.Drawing.Point(17, 26);
             this.cbFilter_Socket.Name = "cbFilter_Socket";
             this.cbFilter_Socket.Size = new System.Drawing.Size(87, 21);
-            this.cbFilter_Socket.TabIndex = 35;
+            this.cbFilter_Socket.TabIndex = 0;
             this.cbFilter_Socket.Text = "过滤套接字";
             this.cbFilter_Socket.UseVisualStyleBackColor = true;
             // 
@@ -541,7 +545,7 @@
             this.cbFilter_IP.Location = new System.Drawing.Point(17, 53);
             this.cbFilter_IP.Name = "cbFilter_IP";
             this.cbFilter_IP.Size = new System.Drawing.Size(86, 21);
-            this.cbFilter_IP.TabIndex = 37;
+            this.cbFilter_IP.TabIndex = 1;
             this.cbFilter_IP.Text = "过滤IP地址";
             this.cbFilter_IP.UseVisualStyleBackColor = true;
             // 
@@ -550,9 +554,13 @@
             this.cmsSocketInfo.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiSend,
             this.toolStripSeparator1,
-            this.tsmiBatchSend});
+            this.tsmiBatchSend,
+            this.toolStripSeparator2,
+            this.tsmiUseSocket,
+            this.toolStripSeparator3,
+            this.tsmiShowBatchSend});
             this.cmsSocketInfo.Name = "cmsSocketInfo";
-            this.cmsSocketInfo.Size = new System.Drawing.Size(161, 54);
+            this.cmsSocketInfo.Size = new System.Drawing.Size(161, 110);
             this.cmsSocketInfo.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.cmsSocketInfo_ItemClicked);
             // 
             // tsmiSend
@@ -571,6 +579,28 @@
             this.tsmiBatchSend.Name = "tsmiBatchSend";
             this.tsmiBatchSend.Size = new System.Drawing.Size(160, 22);
             this.tsmiBatchSend.Text = "添加到发送列表";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(157, 6);
+            // 
+            // tsmiUseSocket
+            // 
+            this.tsmiUseSocket.Name = "tsmiUseSocket";
+            this.tsmiUseSocket.Size = new System.Drawing.Size(160, 22);
+            this.tsmiUseSocket.Text = "使用此套接字";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(157, 6);
+            // 
+            // tsmiShowBatchSend
+            // 
+            this.tsmiShowBatchSend.Name = "tsmiShowBatchSend";
+            this.tsmiShowBatchSend.Size = new System.Drawing.Size(160, 22);
+            this.tsmiShowBatchSend.Text = "查看发送列表";
             // 
             // tlFilter_CNT
             // 
@@ -606,7 +636,7 @@
             this.ssStatusInfo_Top.Padding = new System.Windows.Forms.Padding(1, 0, 18, 0);
             this.ssStatusInfo_Top.Size = new System.Drawing.Size(883, 22);
             this.ssStatusInfo_Top.SizingGrip = false;
-            this.ssStatusInfo_Top.TabIndex = 44;
+            this.ssStatusInfo_Top.TabIndex = 2;
             this.ssStatusInfo_Top.Text = "statusStrip1";
             // 
             // tlSystemInfo
@@ -746,7 +776,7 @@
             this.gbRight.Location = new System.Drawing.Point(0, 0);
             this.gbRight.Name = "gbRight";
             this.gbRight.Size = new System.Drawing.Size(883, 116);
-            this.gbRight.TabIndex = 42;
+            this.gbRight.TabIndex = 0;
             this.gbRight.TabStop = false;
             this.gbRight.Text = "[ 过滤条件 ] - 支持多个内容使用 ; 分隔符";
             // 
@@ -756,7 +786,7 @@
             this.gbClear.Location = new System.Drawing.Point(752, 9);
             this.gbClear.Name = "gbClear";
             this.gbClear.Size = new System.Drawing.Size(29, 100);
-            this.gbClear.TabIndex = 41;
+            this.gbClear.TabIndex = 8;
             this.gbClear.TabStop = false;
             // 
             // cbReset_CNT
@@ -768,7 +798,7 @@
             this.cbReset_CNT.Location = new System.Drawing.Point(3, 12);
             this.cbReset_CNT.Name = "cbReset_CNT";
             this.cbReset_CNT.Size = new System.Drawing.Size(22, 86);
-            this.cbReset_CNT.TabIndex = 42;
+            this.cbReset_CNT.TabIndex = 0;
             this.cbReset_CNT.Text = "清空数据";
             this.cbReset_CNT.UseVisualStyleBackColor = true;
             // 
@@ -782,7 +812,7 @@
             this.gbSearch_Bottom.Location = new System.Drawing.Point(0, 417);
             this.gbSearch_Bottom.Name = "gbSearch_Bottom";
             this.gbSearch_Bottom.Size = new System.Drawing.Size(883, 54);
-            this.gbSearch_Bottom.TabIndex = 48;
+            this.gbSearch_Bottom.TabIndex = 4;
             this.gbSearch_Bottom.TabStop = false;
             this.gbSearch_Bottom.Text = "[ 数据搜索 ]";
             // 
@@ -839,7 +869,7 @@
             this.dgSocketInfo.RowTemplate.Height = 23;
             this.dgSocketInfo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgSocketInfo.Size = new System.Drawing.Size(883, 279);
-            this.dgSocketInfo.TabIndex = 49;
+            this.dgSocketInfo.TabIndex = 3;
             this.dgSocketInfo.SelectionChanged += new System.EventHandler(this.dgSocketInfo_SelectionChanged);
             // 
             // cIndex
@@ -1045,5 +1075,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private System.Windows.Forms.DataGridViewTextBoxColumn cLen;
         private System.Windows.Forms.DataGridViewTextBoxColumn cData;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem tsmiShowBatchSend;
+        private System.Windows.Forms.ToolStripMenuItem tsmiUseSocket;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     }
 }

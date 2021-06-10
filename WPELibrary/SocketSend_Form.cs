@@ -66,6 +66,31 @@ namespace WPELibrary
             this.bSendStop.Enabled = false;
         }
 
+        private void cmsSocketSend_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            if (e.ClickedItem.Text.Equals("添加到发送列表"))
+            {
+                string socket = this.txtSend_Socket.Text.Trim();
+                string length = this.txtSend_Len.Text.Trim();
+                string data = this.rtbSocketSend_Data.Text.Trim();
+                string count = this.txtSend_CNT.Text.Trim();
+                string times = this.txtSend_Int.Text.Trim();
+                byte[] buffer = this.so.Hex_To_Byte(data);
+                DataRow row = SocketSend.dtSocketBatchSend.NewRow();
+                row[0] = int.Parse(this.Send_Index);
+                row[1] = int.Parse(socket);
+                row[2] = this.Send_IPTo;
+                row[3] = buffer.Length;
+                row[4] = data;
+                row[5] = buffer;
+                SocketSend.dtSocketBatchSend.Rows.Add(row);
+                if (!SocketSend.bHasBatchSendForm)
+                {
+                    new SocketBatchSend_Form().Show();
+                }
+            }
+        }
+
         private void bgwSendPacket_DoWork(object sender, DoWorkEventArgs e)
         {
             this.SendPacket();

@@ -155,6 +155,14 @@ namespace WPELibrary
                         new SocketBatchSend_Form().Show();
                     }
                 }
+                else if (text.Equals("使用此套接字"))
+                {
+                    SocketSend.iUseSocket = socket;
+                }
+                else if (text.Equals("查看发送列表") && !SocketSend.bHasBatchSendForm)
+                {
+                    new SocketBatchSend_Form().Show();
+                }
             }
             catch (Exception ex)
             {

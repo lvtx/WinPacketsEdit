@@ -58,12 +58,15 @@
             this.bgwSendPacket = new System.ComponentModel.BackgroundWorker();
             this.pSend_Top = new System.Windows.Forms.Panel();
             this.rtbSocketSend_Data = new System.Windows.Forms.RichTextBox();
+            this.cmsSocketSend = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiBatchSend = new System.Windows.Forms.ToolStripMenuItem();
             this.tSend = new System.Windows.Forms.Timer(this.components);
             this.ssSocketSend.SuspendLayout();
             this.gbSend2.SuspendLayout();
             this.gbSend1.SuspendLayout();
             this.gbSend_Bottom.SuspendLayout();
             this.pSend_Top.SuspendLayout();
+            this.cmsSocketSend.SuspendLayout();
             this.SuspendLayout();
             // 
             // ssSocketSend
@@ -313,12 +316,27 @@
             // 
             // rtbSocketSend_Data
             // 
+            this.rtbSocketSend_Data.ContextMenuStrip = this.cmsSocketSend;
             this.rtbSocketSend_Data.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbSocketSend_Data.Location = new System.Drawing.Point(3, 3);
             this.rtbSocketSend_Data.Name = "rtbSocketSend_Data";
             this.rtbSocketSend_Data.Size = new System.Drawing.Size(546, 130);
             this.rtbSocketSend_Data.TabIndex = 0;
             this.rtbSocketSend_Data.Text = "";
+            // 
+            // cmsSocketSend
+            // 
+            this.cmsSocketSend.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiBatchSend});
+            this.cmsSocketSend.Name = "cmsSocketSend";
+            this.cmsSocketSend.Size = new System.Drawing.Size(161, 26);
+            this.cmsSocketSend.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.cmsSocketSend_ItemClicked);
+            // 
+            // tsmiBatchSend
+            // 
+            this.tsmiBatchSend.Name = "tsmiBatchSend";
+            this.tsmiBatchSend.Size = new System.Drawing.Size(160, 22);
+            this.tsmiBatchSend.Text = "添加到发送列表";
             // 
             // tSend
             // 
@@ -354,6 +372,7 @@
             this.gbSend_Bottom.ResumeLayout(false);
             this.gbSend_Bottom.PerformLayout();
             this.pSend_Top.ResumeLayout(false);
+            this.cmsSocketSend.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -391,5 +410,7 @@
         private System.Windows.Forms.ToolStripStatusLabel tlSend_Fail;
         private System.Windows.Forms.ToolStripStatusLabel tlSend_Fail_CNT;
         private System.Windows.Forms.TextBox txtSend_CNT;
+        private System.Windows.Forms.ContextMenuStrip cmsSocketSend;
+        private System.Windows.Forms.ToolStripMenuItem tsmiBatchSend;
     }
 }

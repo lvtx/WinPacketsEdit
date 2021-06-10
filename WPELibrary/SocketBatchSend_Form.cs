@@ -40,21 +40,48 @@ namespace WPELibrary
             this.InitBatchSendSocketInfo();
         }
 
-        private void bClear_Click(object sender, EventArgs e)
-        {
-            SocketSend.dtSocketBatchSend.Rows.Clear();
-        }
-
         private void bSend_Click(object sender, EventArgs e)
         {
-            this.bSend.Enabled = false;
-            this.bSendStop.Enabled = true;
-            this.SendBatchCNT = 0;
-            this.Send_Success_CNT = 0;
-            this.Send_Fail_CNT = 0;
-            if (!this.bgwSendPacket.IsBusy)
+            bool flag = true;
+            if (this.cbUseSocket.Checked)
             {
-                this.bgwSendPacket.RunWorkerAsync();
+                string str = this.txtUseSocket.Text.Trim();
+                if (string.IsNullOrEmpty(str))
+                {
+                    flag = false;
+                }
+                else
+                {
+                    try
+                    {
+                        if (int.Parse(str) <= 0)
+                        {
+                            flag = false;
+                        }
+                    }
+                    catch
+                    {
+                        flag = false;
+                    }
+                }
+            }
+            if (flag)
+            {
+                this.bSend.Enabled = false;
+                this.bSendStop.Enabled = true;
+                this.cbUseSocket.Enabled = false;
+                this.txtUseSocket.Enabled = false;
+                this.SendBatchCNT = 0;
+                this.Send_Success_CNT = 0;
+                this.Send_Fail_CNT = 0;
+                if (!this.bgwSendPacket.IsBusy)
+                {
+                    this.bgwSendPacket.RunWorkerAsync();
+                }
+            }
+            else
+            {
+                MessageBox.Show("请正确设置套接字！");
             }
         }
 
@@ -67,10 +94,18 @@ namespace WPELibrary
 
         private void cmsBatchSend_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            if (e.ClickedItem.Text.Equals("从列表中移除") && (this.dgBatchSend.SelectedRows.Count == 1))
+            string text = e.ClickedItem.Text;
+            if (text.Equals("从列表中移除"))
             {
-                int index = this.dgBatchSend.SelectedRows[0].Index;
-                SocketSend.dtSocketBatchSend.Rows[index].Delete();
+                if (this.dgBatchSend.SelectedRows.Count == 1)
+                {
+                    int index = this.dgBatchSend.SelectedRows[0].Index;
+                    SocketSend.dtSocketBatchSend.Rows[index].Delete();
+                }
+            }
+            else if (text.Equals("清空发送列表"))
+            {
+                SocketSend.dtSocketBatchSend.Rows.Clear();
             }
         }
 
@@ -79,6 +114,8 @@ namespace WPELibrary
             this.SendPacket();
             this.bSend.Enabled = true;
             this.bSendStop.Enabled = false;
+            this.cbUseSocket.Enabled = true;
+            this.txtUseSocket.Enabled = true;
         }
 
         private void tSend_Tick(object sender, EventArgs e)
@@ -90,6 +127,10 @@ namespace WPELibrary
 
         private void InitBatchSendSocketInfo()
         {
+            if (SocketSend.iUseSocket > 0)
+            {
+                this.txtUseSocket.Text = SocketSend.iUseSocket.ToString();
+            }
             this.dgBatchSend.DataSource = SocketSend.dtSocketBatchSend;
         }
 
@@ -97,9 +138,9 @@ namespace WPELibrary
         {
             try
             {
-                int num = int.Parse(this.txtSend_CNT.Text.Trim());
-                int millisecondsTimeout = int.Parse(this.txtSend_Int.Text.Trim());
-                for (int i = 0; i < num; i++)
+                int number = int.Parse(this.txtSend_CNT.Text.Trim());
+                int times = int.Parse(this.txtSend_Int.Text.Trim());
+                for (int i = 0; i < number; i++)
                 {
                     for (int j = 0; j < SocketSend.dtSocketBatchSend.Rows.Count; j++)
                     {
@@ -107,14 +148,22 @@ namespace WPELibrary
                         {
                             return;
                         }
-                        int socket = int.Parse(SocketSend.dtSocketBatchSend.Rows[j]["套接字"].ToString());
-                        int num7 = int.Parse(SocketSend.dtSocketBatchSend.Rows[j]["长度"].ToString());
-                        byte[] source = (byte[])SocketSend.dtSocketBatchSend.Rows[j]["字节"];
-                        if ((socket > 0) && (source.Length != 0))
+                        int socket = 0;
+                        if (this.cbUseSocket.Checked)
                         {
-                            IntPtr destination = Marshal.AllocHGlobal(source.Length);
-                            Marshal.Copy(source, 0, destination, source.Length);
-                            if (this.ws.SendPacket(socket, destination, source.Length))
+                            socket = int.Parse(this.txtUseSocket.Text.Trim());
+                        }
+                        else
+                        {
+                            socket = int.Parse(SocketSend.dtSocketBatchSend.Rows[j]["套接字"].ToString());
+                        }
+                        int len = int.Parse(SocketSend.dtSocketBatchSend.Rows[j]["长度"].ToString());
+                        byte[] buffer = (byte[])SocketSend.dtSocketBatchSend.Rows[j]["字节"];
+                        if ((socket > 0) && (buffer.Length != 0))
+                        {
+                            IntPtr destination = Marshal.AllocHGlobal(buffer.Length);
+                            Marshal.Copy(buffer, 0, destination, buffer.Length);
+                            if (this.ws.SendPacket(socket, destination, buffer.Length))
                             {
                                 this.Send_Success_CNT++;
                             }
@@ -122,14 +171,14 @@ namespace WPELibrary
                             {
                                 this.Send_Fail_CNT++;
                             }
-                            Thread.Sleep(millisecondsTimeout);
+                            Thread.Sleep(times);
                         }
                     }
                     this.SendBatchCNT++;
-                    int num4 = num - this.SendBatchCNT;
-                    if (num4 > 0)
+                    int cnt = number - this.SendBatchCNT;
+                    if (cnt > 0)
                     {
-                        this.txtSend_CNT.Text = num4.ToString();
+                        this.txtSend_CNT.Text = cnt.ToString();
                     }
                 }
             }
