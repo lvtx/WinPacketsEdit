@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,28 @@ namespace ProcessInjector
         {
             InitializeComponent();
             this.GetProcess();
+        }
+
+        private void bCreate_Click(object sender, EventArgs e)
+        {
+            //点击弹出对话框
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            //设置对话框的标题
+            openFileDialog.Title = "请选择要注入的应用程序";
+            //设置对话框可以多选
+            openFileDialog.Multiselect = false;
+            //设置对话框的初始目录
+            openFileDialog.InitialDirectory = "";
+            //设置对话框的文件类型
+            openFileDialog.Filter = "应用程序|*.exe|所有文件|*.*";
+
+            //展示对话框
+            openFileDialog.ShowDialog();
+            //获得在打开的对话框中选中文件的路径
+            Program.PID = -1;
+            Program.PATH = openFileDialog.FileName;
+            Program.PNAME = Path.GetFileName(Program.PATH);
+            base.Close();
         }
 
         private void bRefresh_Click(object sender, EventArgs e)

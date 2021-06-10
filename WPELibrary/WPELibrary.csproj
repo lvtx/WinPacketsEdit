@@ -57,14 +57,25 @@
     <Compile Include="DLL_Form.Designer.cs">
       <DependentUpon>DLL_Form.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainClass.cs" />
+    <Compile Include="Lib\SocketEvent.cs" />
+    <Compile Include="Lib\SocketOperation.cs" />
+    <Compile Include="Lib\SocketPacket.cs" />
+    <Compile Include="Lib\SocketSend.cs" />
+    <Compile Include="Lib\WinSockHook.cs" />
+    <Compile Include="Lib\MainClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SocketInfo.cs" />
+    <Compile Include="Lib\SocketInfo.cs" />
+    <Compile Include="SocketBatchSend_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SocketBatchSend_Form.Designer.cs">
+      <DependentUpon>SocketBatchSend_Form.cs</DependentUpon>
+    </Compile>
     <Compile Include="SocketSend_Form.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -79,6 +90,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SocketBatchSend_Form.resx">
+      <DependentUpon>SocketBatchSend_Form.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SocketSend_Form.resx">
       <DependentUpon>SocketSend_Form.cs</DependentUpon>
@@ -107,6 +121,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

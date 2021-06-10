@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -12,6 +13,10 @@ namespace ProcessInjector
     {
         public static int PID = -1;
         public static string PNAME = string.Empty;
+        public static string PATH = string.Empty;
+
+        [DllImport("user32.dll")]
+        private static extern bool SetProcessDPIAware();
 
         /// <summary>
         /// 应用程序的主入口点。
@@ -21,6 +26,11 @@ namespace ProcessInjector
         {
             try
             {
+                if (Environment.OSVersion.Version.Major >= 6)
+                {
+                    SetProcessDPIAware();
+                }
+
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 if (!new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))

@@ -62,6 +62,12 @@
     <Compile Include="Injector_Form.Designer.cs">
       <DependentUpon>Injector_Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="ListViewNF.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ListViewNF.designer.cs">
+      <DependentUpon>ListViewNF.cs</DependentUpon>
+    </Compile>
     <Compile Include="ProcessList_Form.cs">
       <SubType>Form</SubType>
     </Compile>

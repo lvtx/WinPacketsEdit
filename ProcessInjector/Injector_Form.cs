@@ -19,6 +19,7 @@ namespace ProcessInjector
     {
         private string Version = "";
         private string ProcessName = "";
+        private string ProcessPath = "";
         private int ProcessID = -1;
         private ComputerInfo ci = new ComputerInfo();
 
@@ -37,34 +38,56 @@ namespace ProcessInjector
             {
                 this.tbProcessID.Text = Program.PNAME + " [" + Program.PID.ToString() + "]";
             }
+            else if (((Program.PID == -1) && !string.IsNullOrEmpty(Program.PNAME)) && !string.IsNullOrEmpty(Program.PATH))
+            {
+                this.tbProcessID.Text = Program.PNAME;
+            }
         }
 
         private void bInject_Click(object sender, EventArgs e)
         {
             this.rtbLog.Clear();
             this.ProcessID = Program.PID;
+            this.ProcessPath = Program.PATH;
             this.ProcessName = Program.PNAME;
             string library = "WPELibrary.dll";
             try
             {
-                if (this.ProcessID > -1)
+                if (string.IsNullOrEmpty(this.ProcessPath) && string.IsNullOrEmpty(this.ProcessName))
                 {
-                    this.ShowLog(string.Format("目标进程是{0}位程序，已自动调用{0}位的注入模块!",
-                        this.IsWin64Process(this.ProcessID) ? 64 : 32));
-                    this.ShowLog("开始注入目标进程 =>> " + this.ProcessName);
-                    object[] inPassThruArgs = new object[] { "" };
-                    RemoteHooking.Inject(
-                        this.ProcessID,
-                        Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), library),
-                        Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), library),
-                        inPassThruArgs);
-                    this.ShowLog($"已成功注入目标进程 =>> {this.ProcessName}[{this.ProcessID}]");
-                    this.ShowLog("注入完成，可关闭当前注入器.");
-                    this.bInject.Enabled = false;
+                    MessageBox.Show("请先选择要注入的进程！");
                 }
                 else
                 {
-                    MessageBox.Show("请先选择要注入的进程！");
+                    this.ShowLog("开始注入目标进程 =>> " + this.ProcessName);
+                    string inLibraryPath_x86 = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), library);
+                    string inLibraryPath_x64 = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), library);
+                    object[] inPassThruArgs = new object[] { "" };
+                    if (this.ProcessID > -1)
+                    {
+                        RemoteHooking.Inject(
+                            this.ProcessID,
+                            inLibraryPath_x86,
+                            inLibraryPath_x64,
+                            inPassThruArgs);
+                    }
+                    else
+                    {
+                        RemoteHooking.CreateAndInject(
+                            this.ProcessPath,
+                            string.Empty,
+                            0,
+                            inLibraryPath_x86,
+                            inLibraryPath_x64,
+                            out this.ProcessID,
+                            inPassThruArgs);
+                    }
+                    this.ShowLog(string.Format("目标进程是{0}位程序，已自动调用{0}位的注入模块!",
+                        this.IsWin64Process(this.ProcessID) ? 64 : 32));
+                    this.ShowLog("开始注入目标进程 =>> " + this.ProcessName);
+                    this.ShowLog($"已成功注入目标进程 =>> {this.ProcessName}[{this.ProcessID}]");
+                    this.ShowLog("注入完成，可关闭当前注入器.");
+                    //this.bInject.Enabled = false;
                 }
             }
             catch (Exception ex)

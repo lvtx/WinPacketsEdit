@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WPELibrary.Lib;
 
 namespace WPELibrary
 {
@@ -17,7 +18,8 @@ namespace WPELibrary
         private int SendPacketCNT = 0;
         private int Send_Success_CNT = 0;
         private int Send_Fail_CNT = 0;
-        private SocketInfo Socket_Info = new SocketInfo();
+        private WinSockHook ws = new WinSockHook();
+        private SocketOperation so = new SocketOperation();
         public string Send_Index;
         public string Send_Socket;
         public string Send_Len;
@@ -67,6 +69,8 @@ namespace WPELibrary
         private void bgwSendPacket_DoWork(object sender, DoWorkEventArgs e)
         {
             this.SendPacket();
+            this.bSend.Enabled = true;
+            this.bSendStop.Enabled = false;
         }
 
         private void InitSendSocketInfo()
@@ -75,35 +79,35 @@ namespace WPELibrary
             {
                 this.txtSend_Socket.Text = this.Send_Socket;
                 this.txtSend_Len.Text = this.Send_Len;
-                this.txtSend_IP.Text = this.Send_IPTo.Split(new char[] { ':' })[0];
-                this.txtSend_Port.Text = this.Send_IPTo.Split(new char[] { ':' })[1];
-                this.rtbSocketSend_Data.Text = this.Socket_Info.Byte_To_Hex(this.Send_Byte);
+                this.txtSend_IP.Text = this.Send_IPTo.Split(':')[0];
+                this.txtSend_Port.Text = this.Send_IPTo.Split(':')[1];
+                this.rtbSocketSend_Data.Text = this.so.Byte_To_Hex(this.Send_Byte);
             }
             catch (Exception)
             {
             }
         }
 
-        [DllImport("ws2_32.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode, SetLastError = true)]
-        private static extern int send(int socket, IntPtr buffer, int length, int flags);
-        private void SendPacket()
+        public void SendPacket()
         {
             try
             {
-                int socket = int.Parse(this.txtSend_Socket.Text.Trim());
-                int len = int.Parse(this.txtSend_Len.Text.Trim());
-                byte[] buffer = this.Socket_Info.Hex_To_Byte(this.rtbSocketSend_Data.Text);
                 int number = int.Parse(this.txtSend_CNT.Text.Trim());
                 int times = int.Parse(this.txtSend_Int.Text.Trim());
-                IntPtr destination = Marshal.AllocHGlobal(buffer.Length);
-                Marshal.Copy(buffer, 0, destination, buffer.Length);
-                if ((socket > 0 && buffer.Length != 0) && number > 0)
-                {
-                    for (int i = 0; i < number; i++)
-                    {
-                        if (this.bgwSendPacket.CancellationPending) return;
 
-                        if (send(socket, destination, buffer.Length, 0) > 0)
+                for (int i = 0; i < number; i++)
+                {
+                    if (this.bgwSendPacket.CancellationPending) return;
+
+                    int socket = int.Parse(this.txtSend_Socket.Text.Trim());
+                    int len = int.Parse(this.txtSend_Len.Text.Trim());
+                    byte[] buffer = this.so.Hex_To_Byte(this.rtbSocketSend_Data.Text);
+                    IntPtr destination = Marshal.AllocHGlobal(buffer.Length);
+                    Marshal.Copy(buffer, 0, destination, buffer.Length);
+
+                    if (socket > 0 && (buffer.Length != 0))
+                    {
+                        if (this.ws.SendPacket(socket, destination, buffer.Length))
                         {
                             this.Send_Success_CNT++;
                         }
@@ -121,12 +125,12 @@ namespace WPELibrary
                     }
                 }
             }
-            catch (Exception)
+            catch/* (Exception)*/
             {
                 //this.ShowDebug(ex.Message);
             }
-            this.bSend.Enabled = true;
-            this.bSendStop.Enabled = false;
+            //this.bSend.Enabled = true;
+            //this.bSendStop.Enabled = false;
         }
     }
 }
