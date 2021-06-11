@@ -281,9 +281,9 @@ namespace WPELibrary
                         break;
                 }
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                this.ShowDebug(exception.Message);
+                this.ShowDebug(ex.Message);
             }
         }
 
