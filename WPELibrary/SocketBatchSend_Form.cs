@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -40,13 +41,101 @@ namespace WPELibrary
             this.InitBatchSendSocketInfo();
         }
 
+        private void bLoadSocket_Click(object sender, EventArgs e)
+        {
+            int success = 0;
+            int fail = 0;
+            try
+            {
+                this.ofdLoadSocket.ShowDialog();
+                string fileName = this.ofdLoadSocket.FileName;
+                if (!string.IsNullOrEmpty(fileName))
+                {
+                    string[] send_list = File.ReadAllLines(fileName, Encoding.Default);
+                    SocketSend.dtSocketBatchSend.Rows.Clear();
+                    foreach (string packet in send_list)
+                    {
+                        try
+                        {
+                            string[] send_data = packet.Split('|');
+                            string index = send_data[0];
+                            string socket = send_data[1];
+                            string to = send_data[2];
+                            string length = send_data[3];
+                            string data = send_data[4];
+                            byte[] buffer = this.so.Hex_To_Byte(data);
+                            DataRow row = SocketSend.dtSocketBatchSend.NewRow();
+                            row[0] = int.Parse(index);
+                            row[1] = int.Parse(socket);
+                            row[2] = to;
+                            row[3] = length;
+                            row[4] = data;
+                            row[5] = buffer;
+                            SocketSend.dtSocketBatchSend.Rows.Add(row);
+                            success++;
+                        }
+                        catch
+                        {
+                            fail++;
+                        }
+                    }
+                }
+                MessageBox.Show("加载完毕，成功【" + success.ToString() + "】失败【" + fail.ToString() + "】！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("加载失败！错误：" + ex.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+        }
+
+        private void bSaveSocket_Click(object sender, EventArgs e)
+        {
+            int success = 0;
+            int fail = 0;
+            if ((this.dgBatchSend.Rows.Count > 0) && (this.sfdSaveSocket.ShowDialog() == DialogResult.OK))
+            {
+                try
+                {
+                    FileStream stream = new FileStream(this.sfdSaveSocket.FileName, FileMode.Create);
+                    StreamWriter writer = new StreamWriter(stream);
+                    for (int i = 0; i < this.dgBatchSend.Rows.Count; i++)
+                    {
+                        try
+                        {
+                            byte[] data = (byte[])SocketSend.dtSocketBatchSend.Rows[i]["字节"];
+                            string index = (i + 1).ToString();
+                            string socket = this.dgBatchSend.Rows[i].Cells[1].Value.ToString().Trim();
+                            string to = this.dgBatchSend.Rows[i].Cells[2].Value.ToString().Trim();
+                            string length = this.dgBatchSend.Rows[i].Cells[3].Value.ToString().Trim();
+                            string buffer = this.so.Byte_To_Hex(data);
+                            string text = string.Concat(new string[] { index, "|", socket, "|", to, "|", length, "|", buffer });
+                            writer.WriteLine(text);
+                            success++;
+                        }
+                        catch
+                        {
+                            fail++;
+                        }
+                    }
+                    writer.Flush();
+                    writer.Close();
+                    stream.Close();
+                    MessageBox.Show("保存完毕，成功【" + success.ToString() + "】失败【" + fail.ToString() + "】！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("保存失败！错误：" + ex.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                }
+            }
+        }
+
         private void bSend_Click(object sender, EventArgs e)
         {
             bool flag = true;
             if (this.cbUseSocket.Checked)
             {
-                string str = this.txtUseSocket.Text.Trim();
-                if (string.IsNullOrEmpty(str))
+                string socket = this.txtUseSocket.Text.Trim();
+                if (string.IsNullOrEmpty(socket))
                 {
                     flag = false;
                 }
@@ -54,7 +143,7 @@ namespace WPELibrary
                 {
                     try
                     {
-                        if (int.Parse(str) <= 0)
+                        if (int.Parse(socket) <= 0)
                         {
                             flag = false;
                         }

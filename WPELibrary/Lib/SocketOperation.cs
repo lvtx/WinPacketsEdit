@@ -13,11 +13,11 @@ namespace WPELibrary.Lib
         public bool Filter_Socket = false;
         public bool Filter_IP = false;
         public bool Filter_Packet = false;
-        public string Filter_Size_From = "";
-        public string Filter_Size_To = "";
-        public string Filter_Socket_txt = "";
-        public string Filter_IP_txt = "";
-        public string Filter_Packet_txt = "";
+        public string Filter_Size_From = string.Empty;
+        public string Filter_Size_To = string.Empty;
+        public string Filter_Socket_txt = string.Empty;
+        public string Filter_IP_txt = string.Empty;
+        public string Filter_Packet_txt = string.Empty;
 
         [DllImport("ws2_32.dll")]
         private static extern IntPtr inet_ntoa(SocketPacket.in_addr a);

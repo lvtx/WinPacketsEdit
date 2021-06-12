@@ -118,55 +118,61 @@ namespace WPELibrary
         private void cmsSocketInfo_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             string text = e.ClickedItem.Text;
-            try
+            if (text.Equals("查看发送列表"))
             {
-                int index = this.lstRecPacket[this.Select_Index].Index;
-                int socket = this.lstRecPacket[this.Select_Index].Socket;
-                int length = this.lstRecPacket[this.Select_Index].Length;
-                string to = this.lstRecPacket[this.Select_Index].To;
-                string data = this.lstRecPacket[this.Select_Index].Data;
-                byte[] buffer = this.lstRecPacket[this.Select_Index].Buffer;
-                if (text.Equals("发送"))
-                {
-                    if ((this.Select_Index > -1 && this.dgSocketInfo.SelectedRows.Count == 1) && this.lstRecPacket.Count > 0)
-                    {
-                        new SocketSend_Form
-                        {
-                            Send_Index = index.ToString(),
-                            Send_Socket = socket.ToString(),
-                            Send_Len = length.ToString(),
-                            Send_IPTo = to,
-                            Send_Byte = buffer
-                        }.Show();
-                    }
-                }
-                else if (text.Equals("添加到发送列表"))
-                {
-                    DataRow row = SocketSend.dtSocketBatchSend.NewRow();
-                    row[0] = index;
-                    row[1] = socket;
-                    row[2] = to;
-                    row[3] = length;
-                    row[4] = data;
-                    row[5] = buffer;
-                    SocketSend.dtSocketBatchSend.Rows.Add(row);
-                    if (!SocketSend.bHasBatchSendForm)
-                    {
-                        new SocketBatchSend_Form().Show();
-                    }
-                }
-                else if (text.Equals("使用此套接字"))
-                {
-                    SocketSend.iUseSocket = socket;
-                }
-                else if (text.Equals("查看发送列表") && !SocketSend.bHasBatchSendForm)
+                if (!SocketSend.bHasBatchSendForm)
                 {
                     new SocketBatchSend_Form().Show();
                 }
             }
-            catch (Exception ex)
+            else if (this.Select_Index > -1)
             {
-                this.ShowDebug(ex.Message);
+                try
+                {
+                    int index = this.lstRecPacket[this.Select_Index].Index;
+                    int socket = this.lstRecPacket[this.Select_Index].Socket;
+                    int length = this.lstRecPacket[this.Select_Index].Length;
+                    string to = this.lstRecPacket[this.Select_Index].To;
+                    string data = this.lstRecPacket[this.Select_Index].Data;
+                    byte[] buffer = this.lstRecPacket[this.Select_Index].Buffer;
+                    if (text.Equals("发送"))
+                    {
+                        if ((this.Select_Index > -1 && this.dgSocketInfo.SelectedRows.Count == 1) && this.lstRecPacket.Count > 0)
+                        {
+                            new SocketSend_Form
+                            {
+                                Send_Index = index.ToString(),
+                                Send_Socket = socket.ToString(),
+                                Send_Len = length.ToString(),
+                                Send_IPTo = to,
+                                Send_Byte = buffer
+                            }.Show();
+                        }
+                    }
+                    else if (text.Equals("添加到发送列表"))
+                    {
+                        DataRow row = SocketSend.dtSocketBatchSend.NewRow();
+                        row[0] = index;
+                        row[1] = socket;
+                        row[2] = to;
+                        row[3] = length;
+                        row[4] = data;
+                        row[5] = buffer;
+                        SocketSend.dtSocketBatchSend.Rows.Add(row);
+                        if (!SocketSend.bHasBatchSendForm)
+                        {
+                            new SocketBatchSend_Form().Show();
+                        }
+                    }
+                    else if (text.Equals("使用此套接字"))
+                    {
+                        SocketSend.iUseSocket = socket;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    this.ShowDebug(ex.Message);
+                }
             }
         }
 
@@ -250,7 +256,7 @@ namespace WPELibrary
         {
             if (this.bDebug)
             {
-                this.rtbDEBUG.AppendText(sLog + "\n");
+                this.rtbDEBUG.Invoke((MethodInvoker)delegate { this.rtbDEBUG.AppendText(sLog + "\n"); });
             }
         }
 
@@ -258,32 +264,35 @@ namespace WPELibrary
         {
             try
             {
-                byte[] bSelected = this.lstRecPacket[this.Select_Index].Buffer;
-                switch (tcPacketInfo.SelectedIndex)
+                if (this.Select_Index > -1)
                 {
-                    case 0:
-                        this.rtbHEX.Invoke((MethodInvoker)delegate { this.rtbHEX.Text = this.so.Byte_To_Hex(bSelected); });
-                        break;
-                    case 1:
-                        this.rtbDEC.Invoke((MethodInvoker)delegate { this.rtbDEC.Text = this.so.Byte_To_Dec(bSelected); });
-                        break;
-                    case 2:
-                        this.rtbBIN.Invoke((MethodInvoker)delegate { this.rtbBIN.Text = this.so.Byte_To_Bin(bSelected); });
-                        break;
-                    case 3:
-                        this.rtbUNICODE.Invoke((MethodInvoker)delegate { this.rtbUNICODE.Text = this.so.Byte_To_Unicode(bSelected); });
-                        break;
-                    case 4:
-                        this.rtbUTF8.Invoke((MethodInvoker)delegate { this.rtbUTF8.Text = this.so.Byte_To_UTF8(bSelected); });
-                        break;
-                    case 5:
-                        this.rtbGB2312.Invoke((MethodInvoker)delegate { this.rtbGB2312.Text = this.so.Byte_To_GB2312(bSelected); });
-                        break;
+                    byte[] bSelected = this.lstRecPacket[this.Select_Index].Buffer;
+                    switch (tcPacketInfo.SelectedIndex)
+                    {
+                        case 0:
+                            this.rtbHEX.Invoke((MethodInvoker)delegate { this.rtbHEX.Text = this.so.Byte_To_Hex(bSelected); });
+                            break;
+                        case 1:
+                            this.rtbDEC.Invoke((MethodInvoker)delegate { this.rtbDEC.Text = this.so.Byte_To_Dec(bSelected); });
+                            break;
+                        case 2:
+                            this.rtbBIN.Invoke((MethodInvoker)delegate { this.rtbBIN.Text = this.so.Byte_To_Bin(bSelected); });
+                            break;
+                        case 3:
+                            this.rtbUNICODE.Invoke((MethodInvoker)delegate { this.rtbUNICODE.Text = this.so.Byte_To_Unicode(bSelected); });
+                            break;
+                        case 4:
+                            this.rtbUTF8.Invoke((MethodInvoker)delegate { this.rtbUTF8.Text = this.so.Byte_To_UTF8(bSelected); });
+                            break;
+                        case 5:
+                            this.rtbGB2312.Invoke((MethodInvoker)delegate { this.rtbGB2312.Text = this.so.Byte_To_GB2312(bSelected); });
+                            break;
+                    }
                 }
             }
             catch (Exception ex)
             {
-                this.ShowDebug(ex.Message);
+                this.ShowDebug("ShowPacketInfo - " + ex.Message);
             }
         }
 
