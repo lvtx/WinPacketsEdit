@@ -1,7 +1,9 @@
-﻿using System;
+﻿using EasyHook;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -33,10 +35,13 @@ namespace WPELibrary
 
         private void SocketSend_Form_Load(object sender, EventArgs e)
         {
-            this.Text = "发送封包 -【 序号 " + this.Send_Index + " 】 by RNShinoa";
+            string processName = Process.GetCurrentProcess().ProcessName;
+            int currentProcessId = RemoteHooking.GetCurrentProcessId();
+            this.Text = $"发送封包 -【 序号 {this.Send_Index} 】- {processName} [{currentProcessId.ToString()}] by RNShinoa";
             this.bSend.Enabled = true;
             this.bSendStop.Enabled = false;
             this.InitSendSocketInfo();
+            this.ShowStepValue();
         }
 
         private void tSend_Tick(object sender, EventArgs e)
@@ -46,8 +51,28 @@ namespace WPELibrary
             this.tlSend_Fail_CNT.Text = this.Send_Fail_CNT.ToString();
         }
 
+        private void nudStepIndex_ValueChanged(object sender, EventArgs e)
+        {
+            this.ShowStepValue();
+        }
+
+        private void nudStepLen_ValueChanged(object sender, EventArgs e)
+        {
+            this.ShowStepValue();
+        }
+
         private void bSend_Click(object sender, EventArgs e)
         {
+            if (this.cbStep.Checked)
+            {
+                string sIndex = this.lStepIndex.Text.Trim();
+                string sLen = this.lStepLen.Text.Trim();
+                if (string.IsNullOrEmpty(sIndex) || string.IsNullOrEmpty(sLen))
+                {
+                    MessageBox.Show("请正确设置递进位置!");
+                    return;
+                }
+            }
             this.bSend.Enabled = false;
             this.bSendStop.Enabled = true;
             this.SendPacketCNT = 0;
@@ -115,24 +140,36 @@ namespace WPELibrary
 
         public void SendPacket()
         {
-            try
+            int number = int.Parse(this.txtSend_CNT.Text.Trim());
+            int times = int.Parse(this.txtSend_Int.Text.Trim());
+            string data = this.rtbSocketSend_Data.Text;
+
+            for (int i = 0; i < number; i++)
             {
-                int number = int.Parse(this.txtSend_CNT.Text.Trim());
-                int times = int.Parse(this.txtSend_Int.Text.Trim());
+                if (this.bgwSendPacket.CancellationPending) break;
 
-                for (int i = 0; i < number; i++)
+                try
                 {
-                    if (this.bgwSendPacket.CancellationPending) return;
-
                     int socket = int.Parse(this.txtSend_Socket.Text.Trim());
                     int len = int.Parse(this.txtSend_Len.Text.Trim());
-                    byte[] buffer = this.so.Hex_To_Byte(this.rtbSocketSend_Data.Text);
-                    IntPtr destination = Marshal.AllocHGlobal(buffer.Length);
-                    Marshal.Copy(buffer, 0, destination, buffer.Length);
-
-                    if (socket > 0 && (buffer.Length != 0))
+                    if (this.cbStep.Checked)
                     {
-                        if (this.ws.SendPacket(socket, destination, buffer.Length))
+                        int iIndex = int.Parse(this.nudStepIndex.Value.ToString()) - 1;
+                        int iLen = int.Parse(this.nudStepLen.Value.ToString());
+                        data = this.so.ReplaceValueByIndexAndLen_HEX(data, iIndex, iLen);
+                        if (string.IsNullOrEmpty(data))
+                        {
+                            this.Send_Fail_CNT++;
+                            break;
+                        }
+                    }
+                    byte[] source = this.so.Hex_To_Byte(data);
+                    IntPtr buffer = Marshal.AllocHGlobal(source.Length);
+                    Marshal.Copy(source, 0, buffer, source.Length);
+
+                    if (socket > 0 && (source.Length != 0))
+                    {
+                        if (this.ws.SendPacket(socket, buffer, source.Length))
                         {
                             this.Send_Success_CNT++;
                         }
@@ -140,7 +177,6 @@ namespace WPELibrary
                         {
                             this.Send_Fail_CNT++;
                         }
-                        this.SendPacketCNT++;
                         int cnt = number - this.SendPacketCNT;
                         if (cnt > 0)
                         {
@@ -149,13 +185,23 @@ namespace WPELibrary
                         Thread.Sleep(times);
                     }
                 }
+                catch
+                {
+                    this.Send_Fail_CNT++;
+                }
+                this.SendPacketCNT++;
             }
-            catch/* (Exception)*/
-            {
-                //this.ShowDebug(ex.Message);
-            }
-            //this.bSend.Enabled = true;
-            //this.bSendStop.Enabled = false;
+        }
+
+        private void ShowStepValue()
+        {
+            int iIndex = int.Parse(this.nudStepIndex.Value.ToString()) - 1;
+            int iLen = int.Parse(this.nudStepLen.Value.ToString());
+            string sHex = this.rtbSocketSend_Data.Text.Trim();
+            string sIndex = this.so.GetValueByIndex_HEX(sHex, iIndex);
+            string sLen = this.so.GetValueByLen_HEX(sIndex, iLen);
+            this.lStepIndex.Text = sIndex;
+            this.lStepLen.Text = sLen;
         }
     }
 }

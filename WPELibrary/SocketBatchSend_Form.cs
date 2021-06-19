@@ -1,7 +1,9 @@
-﻿using System;
+﻿using EasyHook;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -29,16 +31,19 @@ namespace WPELibrary
 
         private void SocketBatchSend_Form_Load(object sender, EventArgs e)
         {
-            SocketSend.bHasBatchSendForm = false;
-        }
-
-        private void SocketBatchSend_Form_FormClosed(object sender, FormClosedEventArgs e)
-        {
+            string processName = Process.GetCurrentProcess().ProcessName;
+            int currentProcessId = RemoteHooking.GetCurrentProcessId();
+            this.Text = $"发送列表 - {processName} [{currentProcessId.ToString()}] by RNShinoa";
             SocketSend.bHasBatchSendForm = true;
             this.dgBatchSend.AutoGenerateColumns = false;
             this.bSend.Enabled = true;
             this.bSendStop.Enabled = false;
             this.InitBatchSendSocketInfo();
+        }
+
+        private void SocketBatchSend_Form_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            SocketSend.bHasBatchSendForm = false;
         }
 
         private void bLoadSocket_Click(object sender, EventArgs e)

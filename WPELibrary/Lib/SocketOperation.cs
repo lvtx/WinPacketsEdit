@@ -169,9 +169,9 @@ namespace WPELibrary.Lib
             {
                 try
                 {
-                    int num = int.Parse(this.Filter_Size_From);
-                    int num2 = int.Parse(this.Filter_Size_To);
-                    if ((iLength >= num) && (iLength <= num2))
+                    int size_from = int.Parse(this.Filter_Size_From);
+                    int size_to = int.Parse(this.Filter_Size_To);
+                    if ((iLength >= size_from) && (iLength <= size_to))
                     {
                         return false;
                     }
@@ -193,8 +193,7 @@ namespace WPELibrary.Lib
                     string[] strArray = this.Filter_Socket_txt.Split(';');
                     foreach (string str in strArray)
                     {
-                        int num2 = int.Parse(str);
-                        if (iSocket == num2)
+                        if (iSocket == int.Parse(str))
                         {
                             return true;
                         }
@@ -212,8 +211,8 @@ namespace WPELibrary.Lib
             int socket = s.Socket;
             byte[] buffer = s.Buffer;
             int length = s.Length;
-            string socketIP = this.GetSocketIP(socket, "F");
-            string str2 = this.GetSocketIP(socket, "T");
+            string sIP_From = this.GetSocketIP(socket, "F");
+            string sIP_To = this.GetSocketIP(socket, "T");
             if (this.DoFilter_Size(length))
             {
                 return false;
@@ -222,7 +221,7 @@ namespace WPELibrary.Lib
             {
                 return false;
             }
-            if (this.DoFilter_IP(socketIP, str2))
+            if (this.DoFilter_IP(sIP_From, sIP_To))
             {
                 return false;
             }
@@ -237,9 +236,9 @@ namespace WPELibrary.Lib
         public bool Filter_Default(SocketPacket s)
         {
             int socket = s.Socket;
-            string socketIP = this.GetSocketIP(socket, "F");
-            string str2 = this.GetSocketIP(socket, "T");
-            if (socketIP.Equals("0.0.0.0:0") || str2.Equals("0.0.0.0:0"))
+            string sIP_From = this.GetSocketIP(socket, "F");
+            string sIP_To = this.GetSocketIP(socket, "T");
+            if (sIP_From.Equals("0.0.0.0:0") || sIP_To.Equals("0.0.0.0:0"))
             {
                 return false;
             }
@@ -258,8 +257,8 @@ namespace WPELibrary.Lib
 
         public string GetSocketIP(int iSocket, string sIP_Type)
         {
-            string str2 = "";
-            string str3 = "";
+            string sIP = string.Empty;
+            string sPort = string.Empty;
             SocketPacket.sockaddr structure = new SocketPacket.sockaddr();
             int namelen = Marshal.SizeOf(structure);
             if (sIP_Type.Equals("F"))
@@ -270,18 +269,48 @@ namespace WPELibrary.Lib
             {
                 getpeername(iSocket, ref structure, ref namelen);
             }
-            str2 = this.GetAddr_IP(structure.sin_addr);
-            str3 = this.GetAddr_Port(structure.sin_port);
-            return (str2 + ":" + str3);
+            sIP = this.GetAddr_IP(structure.sin_addr);
+            sPort = this.GetAddr_Port(structure.sin_port);
+            return (sIP + ":" + sPort);
         }
 
         public string GetSocketIP(SocketPacket.in_addr in_Addr, ushort NetPort)
         {
-            string str2 = "";
-            string str3 = "";
-            str2 = this.GetAddr_IP(in_Addr);
-            str3 = this.GetAddr_Port(NetPort);
-            return (str2 + ":" + str3);
+            string sIP = string.Empty;
+            string sPort = string.Empty;
+            sIP = this.GetAddr_IP(in_Addr);
+            sPort = this.GetAddr_Port(NetPort);
+            return (sIP + ":" + sPort);
+        }
+
+        public string GetValueByIndex_HEX(string sHex, int iIndex)
+        {
+            string hexString = string.Empty;
+            try
+            {
+                string[] strArray = sHex.Split(' ');
+                if (strArray.Length > iIndex)
+                {
+                    hexString = strArray[iIndex];
+                }
+            }
+            catch
+            {
+            }
+            return hexString;
+        }
+
+        public string GetValueByLen_HEX(string sHex, int iLen)
+        {
+            string hexString = string.Empty;
+            try
+            {
+                hexString = (Convert.ToInt32(sHex, 0x10) + iLen).ToString("X2");
+            }
+            catch
+            {
+            }
+            return hexString;
         }
 
         public byte[] Hex_To_Byte(string hexString)
@@ -297,6 +326,22 @@ namespace WPELibrary.Lib
                 buffer[i] = Convert.ToByte(hexString.Substring(i * 2, 2), 0x10);
             }
             return buffer;
+        }
+
+        public string ReplaceValueByIndexAndLen_HEX(string sHex, int iIndex, int iLen)
+        {
+            string strResult = string.Empty;
+            try
+            {
+                string hexString = this.GetValueByIndex_HEX(sHex, iIndex);
+                string sHexValue = this.GetValueByLen_HEX(hexString, iLen);
+                int startIndex = iIndex * 3;
+                strResult = sHex.Remove(startIndex, 2).Insert(startIndex, sHexValue);
+            }
+            catch
+            {
+            }
+            return strResult;
         }
     }
 }

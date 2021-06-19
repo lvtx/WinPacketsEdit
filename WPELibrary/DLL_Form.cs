@@ -303,65 +303,58 @@ namespace WPELibrary
                 if (this.ws._SocketQueue.Count > 0)
                 {
                     SocketPacket s = this.ws._SocketQueue.Dequeue();
-                    if (this.so.Filter_Default(s))
+                    if (this.so.Filter(s))
                     {
-                        if (this.so.Filter(s))
+                        int index = this.dgSocketInfo.Rows.Count + 1;
+                        string type = s.Type;
+                        int socket = s.Socket;
+                        int length = s.Length;
+                        byte[] buffer = s.Buffer;
+                        string data = "";
+                        if (length > this.iShowDataLen)
                         {
-                            int index = this.dgSocketInfo.Rows.Count + 1;
-                            string type = s.Type;
-                            int socket = s.Socket;
-                            int length = s.Length;
-                            byte[] buffer = s.Buffer;
-                            string data = "";
-                            if (length > this.iShowDataLen)
+                            byte[] buffer2 = new byte[this.iShowDataLen];
+                            for (int i = 0; i < this.iShowDataLen; i++)
                             {
-                                byte[] buffer2 = new byte[this.iShowDataLen];
-                                for (int i = 0; i < this.iShowDataLen; i++)
-                                {
-                                    buffer2[i] = buffer[i];
-                                }
-                                data = this.so.Byte_To_Hex(buffer2) + " ...";
+                                buffer2[i] = buffer[i];
                             }
-                            else
-                            {
-                                data = this.so.Byte_To_Hex(buffer);
-                            }
-                            SocketPacket.sockaddr addr = s.Addr;
-                            string from = "";
-                            string to = "";
-                            if (type.Equals("R"))
-                            {
-                                type = "接收";
-                                from = this.so.GetSocketIP(socket, "T");
-                                to = this.so.GetSocketIP(socket, "F");
-                            }
-                            else if (type.Equals("S"))
-                            {
-                                type = "发送";
-                                from = this.so.GetSocketIP(socket, "F");
-                                to = this.so.GetSocketIP(socket, "T");
-                            }
-                            else if (type.Equals("ST"))
-                            {
-                                type = "发送到";
-                                from = this.so.GetSocketIP(socket, "F");
-                                to = this.so.GetSocketIP(addr.sin_addr, addr.sin_port);
-                            }
-                            else if (type.Equals("RF"))
-                            {
-                                type = "接收自";
-                                from = this.so.GetSocketIP(addr.sin_addr, addr.sin_port);
-                                to = this.so.GetSocketIP(socket, "F");
-                            }
-                            SocketInfo si = new SocketInfo(index, type, socket, from, to, length, data, buffer);
-                            if (this.RecSocketPacket != null)
-                            {
-                                this.RecSocketPacket(si);
-                            }
+                            data = this.so.Byte_To_Hex(buffer2) + " ...";
                         }
                         else
                         {
-                            this.FilterCNT++;
+                            data = this.so.Byte_To_Hex(buffer);
+                        }
+                        SocketPacket.sockaddr addr = s.Addr;
+                        string from = "";
+                        string to = "";
+                        if (type.Equals("R"))
+                        {
+                            type = "接收";
+                            from = this.so.GetSocketIP(socket, "T");
+                            to = this.so.GetSocketIP(socket, "F");
+                        }
+                        else if (type.Equals("S"))
+                        {
+                            type = "发送";
+                            from = this.so.GetSocketIP(socket, "F");
+                            to = this.so.GetSocketIP(socket, "T");
+                        }
+                        else if (type.Equals("ST"))
+                        {
+                            type = "发送到";
+                            from = this.so.GetSocketIP(socket, "F");
+                            to = this.so.GetSocketIP(addr.sin_addr, addr.sin_port);
+                        }
+                        else if (type.Equals("RF"))
+                        {
+                            type = "接收自";
+                            from = this.so.GetSocketIP(addr.sin_addr, addr.sin_port);
+                            to = this.so.GetSocketIP(socket, "F");
+                        }
+                        SocketInfo si = new SocketInfo(index, type, socket, from, to, length, data, buffer);
+                        if (this.RecSocketPacket != null)
+                        {
+                            this.RecSocketPacket(si);
                         }
                     }
                     else

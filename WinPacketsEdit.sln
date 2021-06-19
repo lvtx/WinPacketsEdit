@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessInjector", "ProcessI
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPELibrary", "WPELibrary\WPELibrary.csproj", "{351B0F87-2972-4681-A7B7-38742F2F9710}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6B499F22-A635-4385-9F73-08801292F3C5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "说明文档", "说明文档", "{6B499F22-A635-4385-9F73-08801292F3C5}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
